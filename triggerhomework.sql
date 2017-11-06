@@ -4,6 +4,7 @@ create table students(
     gender CHAR(10)
     gpa REAL
     gradyear REAL
+    internships REAL
 );
 
 CREATE TABLE reviews(
@@ -22,3 +23,10 @@ CREATE TRIGGER StuDel
     BEGIN 
         set reviews.authorid = 0;
     end;
+    
+CREATE ASSERTION froshmeat CHECK(
+    NOT EXISTS(
+        SELECT * FROM students
+        where (gradyear = 2021) and  (internships >2)
+    )
+);

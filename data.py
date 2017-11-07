@@ -19,7 +19,7 @@ def main():
   cursor.execute("create table IF NOT EXISTS students(studentid INTEGER, name VARCHAR (40), gender VARCHAR (6), gradyear INTEGER, gpa DOUBLE);")
   con.commit()
 
-  cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, workquality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
+  cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
   con.commit()
 
 
@@ -73,7 +73,7 @@ def make_self_assessments(con, cursor):
     make_skill(con, cursor, 'python', 2019, 0.65, 0.25, 0.1)
     make_skill(con, cursor, 'java', 2019, 0.70, 0.2, 0.07)
     make_skill(con, cursor, 'c', 2019, 0.65, 0.3, 0.05)
-    make_skill(con. cursor, 'javascript', 2019, 0.85, 0.1, 0.05)
+    make_skill(con, cursor, 'javascript', 2019, 0.85, 0.1, 0.05)
     make_skill(con, cursor, 'documentation', 2019, 0.2, 0.45, 0.2)
     make_skill(con, cursor, 'algo', 2019, 0.2, 0.6, 0.2)
     make_skill(con, cursor, 'quality', 2019, 0.05, 0.45, 0.4)
@@ -104,41 +104,36 @@ def make_students(filewriter, cursor, num_students, ID_list, gender, gradyear):
     print (name)
     cursor.execute("insert into students (studentid, name, gender, gradyear) values (%s, %s, %s, %s)", (studentid, name, gender, gradyear))
     filewriter.writerow([make_ID(ID_list), name, gender, gradyear])
-    cursor.execute("insert into skills(reviewerid, partnerid, python, c, java, javascript, algo, workquality, communication, documentation, accountability, internships) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (studentid, studentid, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'))
+    cursor.execute("insert into skills(reviewerid, partnerid, python, c, java, javascript, algo, quality, communication, documentation, accountability, internships) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (studentid, studentid, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'))
 
 
-def make_skill(con, cursor, skill, gradyear, l1, l2, l3, l4=0):
+def make_skill(con, cursor, skill, gradyear, l1, l2, l3, l4=0, l5=0):
   cursor.execute("""select studentid from students where gradyear = %s""" %(gradyear))
   beginner = int(cursor.rowcount*l1)
   intermediate = int(cursor.rowcount*l2)
   expert = int(cursor.rowcount*l3)
   super_expert = int(cursor.rowcount*l4)
-  print ("THE STATS: ", gradyear, cursor.rowcount, l1, l2, l3, l4, beginner, intermediate, expert, super_expert)
+  print ("THE STATS: ", skill, gradyear, cursor.rowcount, l1, l2, l3, l4, beginner, intermediate, expert, super_expert)
 
 
   for i in range (0, beginner):
-    row = cursor.fetchone()
-    print (row)
-    studentid = row[0]
+    studentid = cursor.fetchone()
     con.commit()
     cursor.execute("update skills set " + skill + "=%s where reviewerid=%s", ('1', studentid))
 
   for i in range (0, intermediate):
-    row = cursor.fetchone()
-    studentid = row["studentid"]
-    cursor.execute("update skills set " + skill + "=%s where studentid=%s and Server=%s", ('2', studentid, ServerID))
+    studentid = cursor.fetchone()
+    cursor.execute("update skills set " + skill + "=%s where reviewerid=%s", ('2', studentid))
     con.commit()
 
   for i in range (0, expert):
-    row = cursor.fetchone()
-    studentid = row["studentid"]
-    cursor.execute("update skills set " + skill + "=%s where studentid=%s and Server=%s", ('3', studentid, ServerID))
-    cursor.commit()
+    studentid = cursor.fetchone()
+    cursor.execute("update skills set " + skill + "=%s where reviewerid=%s", ('3', studentid))
+    con.commit()
 
   for i in range(0, super_expert):
-    row = cursor,fetchone()
-    studentid = row["studentid"]
-    cursor.execute("update skills set " + skill + "=%s where studentid=%s and Server=%s", ('4', studentid, ServerID))
+    studentid = cursor.fetchone()
+    cursor.execute("update skills set " + skill + "=%s where reviewerid=%s", ('4', studentid))
     con.commit()
 
 def make_ID(ID_list):

@@ -61,21 +61,21 @@ def main():
   #make_grades(con, cursor, 416, 0.15, 0.25, 0.4, 0.2)
   #make_grades(con, cursor, 440, 0.18 ,0.27, 0.3, 0.25)
   
-  #make_work_distribution(con, cursor, 213)
-  #make_work_distribution(con, cursor, 214)
-  #make_work_distribution(con, cursor, 336)
-  #make_work_distribution(con, cursor, 344)
-  #make_work_distribution(con, cursor, 352)
-  #make_work_distribution(con, cursor, 416)
-  #make_work_distribution(con, cursor, 440)
+  make_work_distribution(con, cursor, 213)
+  make_work_distribution(con, cursor, 214)
+  make_work_distribution(con, cursor, 336)
+  make_work_distribution(con, cursor, 344)
+  make_work_distribution(con, cursor, 352)
+  make_work_distribution(con, cursor, 416)
+  make_work_distribution(con, cursor, 440)
   
-  #review_skills(con, cursor, 213)
-  #review_skills(con, cursor, 214)
-  #review_skills(con, cursor, 336)
-  #review_skills(con, cursor, 344)
-  #review_skills(con, cursor, 352)
-  #review_skills(con, cursor, 416)
-  #review_skills(con, cursor, 440)
+  review_skills(con, cursor, 213)
+  review_skills(con, cursor, 214)
+  review_skills(con, cursor, 336)
+  review_skills(con, cursor, 344)
+  review_skills(con, cursor, 352)
+  review_skills(con, cursor, 416)
+  review_skills(con, cursor, 440)
 
   review_repartner(con, cursor)
 
@@ -108,8 +108,6 @@ def get_average_score(tuple):
   print average 
   print(" ")
   return average
-
-
 
 def review_skills(con, cursor, classcode):
    cursor.execute("select reviewerid, partnerid from reviews where class=%s" %(classcode))
@@ -153,11 +151,10 @@ def make_work_distribution(con, cursor, classcode):
       partner_skill = cursor.execute("select c from skills where reviewerid=%s and partnerid=%s" %(partner, partner))
     elif classcode == 352:
       special_skill = True
-      reviewer_skill = cursor.execute("select python from skills where reviewerid=%s and partnerid=%s" %(reviewer, reviewer))
+      reviewer_skill = cursor.execute("select python from skills where reviewerid=%s and partnerid=%s" %(partner, partner))
       partner_skill = cursor.execute("select python from skills where reviewerid=%s and partnerid=%s" %(partner, partner))
     
     if special_skill:
-      print (reviewer_skill)
       #diff =  reviewer_skill - partner_skill
       #partner's skills are equal or worse
       diff = 0
@@ -177,7 +174,7 @@ def make_work_distribution(con, cursor, classcode):
     else:
       distr = randint(0, 100)
 
-    cursor.execute("update reviews set percentage=%s where reviewerid=%s", (distr, reviewer))
+    cursor.execute("update reviews set percentage=%s where reviewerid=%s and partnerid=%s", (distr, reviewer, partner))
     con.commit()
 
 def make_grades(con, cursor, classcode, numA, numB, numC, numD):

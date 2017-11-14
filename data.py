@@ -52,9 +52,52 @@ def main():
   #make_pairs(con, cursor, 352)
   #make_pairs(con, cursor, 416)
   #make_pairs(con, cursor, 440)
-
-
+  
+  make_grades(con, cursor, 213, 0.24, 0.3, 0.32, 0.14)
+  make_grades(con, cursor, 214, 0.27, 0.32, 0.28, 0.13)
+  make_grades(con, cursor, 336, 0.2, 0.3, 0.34, 0.16)
+  make_grades(con, cursor, 344, 0.2, 0.25, 0.35, 0.2)
+  make_grades(con, cursor, 352, 0.22, 0.23, 0.36, 0.19)
+  make_grades(con, cursor, 416, 0.15, 0.25, 0.4, 0.2)
+  make_grades(con, cursor, 440, 0.18 ,0.27, 0.3, 0.25)
+  
+  
+  
   con.close()
+
+
+
+def make_grades(con, cursor, classcode, numA, numB, numC, numD):
+  #softmeth
+  cursor.execute("""select studentid from taken where class = %s order by rand()"""%(classcode))
+  count = cursor.rowcount
+  id_list = [item[0] for item in cursor.fetchall()]
+  a = int(numA*count)
+  b = int(numB*count)
+  c = int(numC*count)
+  d = int(numD*count)
+  
+  for i in range(0, a):
+    reviewerid = id_list.pop()
+    cursor.execute("update reviews set grade=%s where reviewerid=%s", ('4', reviewerid))
+    con.commit()
+  for i in range(0, b):
+     reviewerid = id_list.pop()
+     cursor.execute("update reviews set grade=%s where reviewerid=%s", ('3', reviewerid))
+     con.commit()
+  for i in range (0, c):
+    reviewerid = id_list.pop()
+    cursor.execute("update reviews set grade=%s where reviewerid=%s", ('2', reviewerid))
+    con.commit()
+  for i in range(0, d):
+    reviewerid = id_list.pop()
+    cursor.execute("update reviews set grade=%s where reviewerid=%s", ('1', reviewerid))
+    con.commit()
+  
+  
+
+
+
 
 def make_pairs(con, cursor, classcode):
   cursor.execute("""select studentid from taken where class = %s order by rand()""" %(classcode))

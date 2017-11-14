@@ -53,19 +53,101 @@ def main():
   #make_pairs(con, cursor, 416)
   #make_pairs(con, cursor, 440)
   
-  make_grades(con, cursor, 213, 0.24, 0.3, 0.32, 0.14)
-  make_grades(con, cursor, 214, 0.27, 0.32, 0.28, 0.13)
-  make_grades(con, cursor, 336, 0.2, 0.3, 0.34, 0.16)
-  make_grades(con, cursor, 344, 0.2, 0.25, 0.35, 0.2)
-  make_grades(con, cursor, 352, 0.22, 0.23, 0.36, 0.19)
-  make_grades(con, cursor, 416, 0.15, 0.25, 0.4, 0.2)
-  make_grades(con, cursor, 440, 0.18 ,0.27, 0.3, 0.25)
+  #make_grades(con, cursor, 213, 0.24, 0.3, 0.32, 0.14)
+  #make_grades(con, cursor, 214, 0.27, 0.32, 0.28, 0.13)
+  #make_grades(con, cursor, 336, 0.2, 0.3, 0.34, 0.16)
+  #make_grades(con, cursor, 344, 0.2, 0.25, 0.35, 0.2)
+  #make_grades(con, cursor, 352, 0.22, 0.23, 0.36, 0.19)
+  #make_grades(con, cursor, 416, 0.15, 0.25, 0.4, 0.2)
+  #make_grades(con, cursor, 440, 0.18 ,0.27, 0.3, 0.25)
   
+  #make_work_distribution(con, cursor, 213)
+  #make_work_distribution(con, cursor, 214)
+  #make_work_distribution(con, cursor, 336)
+  #make_work_distribution(con, cursor, 344)
+  #make_work_distribution(con, cursor, 352)
+  #make_work_distribution(con, cursor, 416)
+  #make_work_distribution(con, cursor, 440)
   
-  
+  review_skills(con, cursor, 213)
+  review_skills(con, cursor,  214)
+  review_skills(con, cursor, 336)
+  review_skills(con, cursor, 344)
+  review_skills(con, cursor, 352)
+  review_skills(con, cursor, 416)
+  review_skills(con, cursor, 440)
+
   con.close()
 
 
+def review_skills(con, cursor, classcode):
+   cursor.execute("select reviewerid, partnerid from reviews where class=%s" %(classcode))
+   pair_list = list(cursor.fetchall())
+   for i in range(0, len(pair_list)):
+     pair = pair_list.pop()
+     reviewer = pair[0]
+     partner = pair[1]
+     if classcode == 213:
+       java = randint(1, 3)
+       cursor.execute("update reviews set java=%s where partnerid=%s and reviewerid=%s", (java, partner, reviewer))
+     elif classcode == 214 or classcode == 416:
+       c = randint(1, 3)
+       cursor.execute("update reviews set c=%s where partnerid=%s and reviewerid=%s", (c, partner, reviewer))
+     elif classcode == 352:
+       python = randint(1, 3)
+       cursor.execute("update reviews set python=%s where partnerid=%s and reviewerid=%s", (python, partner, reviewer))
+     quality = randint(1, 3)
+     communication = randint (1, 3)
+     documentation = randint (1, 3)
+     accountability = randint (1, 3)
+     cursor.execute("update reviews set quality=%s, communication=%s, documentation=%s, accountability=%s where partnerid=%s and reviewerid=%s", (quality, communication, documentation, accountability, partner, reviewer))
+     con.commit()
+    
+def make_work_distribution(con, cursor, classcode):
+  cursor.execute("select reviewerid, partnerid from reviews where class=%s" %(classcode))
+  pair_list = list(cursor.fetchall())
+  special_skill = False
+
+  for i in range(0, len(pair_list)):
+    pair = pair_list.pop()
+    reviewer = pair[0]
+    partner = pair[1]
+    if classcode == 213:
+      special_skill = True
+      reviewer_skill = cursor.execute("select java from skills where reviewerid=%s and partnerid=%s" %(reviewer, reviewer))
+      partner_skill = cursor.execute("select java from skills where reviewerid=%s and partnerid=%s" %(partner, partner))
+    elif classcode == 214 or classcode == 416:
+      special_skill = True
+      reviewer_skill = cursor.execute("select c from skills where reviewerid=%s and partnerid=%s" %(reviewer, reviewer))
+      partner_skill = cursor.execute("select c from skills where reviewerid=%s and partnerid=%s" %(partner, partner))
+    elif classcode == 352:
+      special_skill = True
+      reviewer_skill = cursor.execute("select python from skills where reviewerid=%s and partnerid=%s" %(reviewer, reviewer))
+      partner_skill = cursor.execute("select python from skills where reviewerid=%s and partnerid=%s" %(partner, partner))
+    
+    if special_skill:
+      print (reviewer_skill)
+      #diff =  reviewer_skill - partner_skill
+      #partner's skills are equal or worse
+      diff = 0
+      if diff == 0:
+        distr = randint(40, 60)
+      elif diff == 1:
+        distr = randint (30, 40)
+      elif diff == 2:
+        distr = randint (20, 40)
+
+      #partner's skills are better
+      elif diff == -1:
+        distr = randint (50, 70)
+      elif diff == -2:
+        distr = randint (60, 80)
+    
+    else:
+      distr = randint(0, 100)
+
+    cursor.execute("update reviews set percentage=%s where reviewerid=%s", (distr, reviewer))
+    con.commit()
 
 def make_grades(con, cursor, classcode, numA, numB, numC, numD):
   #softmeth

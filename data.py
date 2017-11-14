@@ -22,10 +22,9 @@ def main():
   #cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
  # con.commit()
 
-  #cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
-#  fill_classes(con, cursor)
+#  cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
 
-#  cursor.execute("create table if not exists reviews(
+  cursor.execute("create table if not exists reviews(reviewerid INTEGER, partnerID INTEGER, class INTEGER, grade INTEGER, percentage INTEGER, repartner BOOL, prof VARCHAR (40);")
   #with open('students.csv', 'wb') as csvfile:
   #  filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
    # filewriter.writerow(['student_ID', 'name', 'gender', 'grad_year', 'GPA']) 
@@ -42,9 +41,17 @@ def main():
     #make_students(filewriter, cursor, 1487, ID_list, 'male', 2018)
     #con.commit()
 
-  make_self_assessments(con, cursor)
-  cursor.execute("select * from skills")
-  
+  #make_self_assessments(con, cursor)
+  #cursor.execute("select * from skills")
+  #cursor.execute("select * from skills")
+  fill_classes(con, cursor)
+ # make_classes(con, cursor, 213, 0.03, 0.05, 0.3, 0.4)
+ # make_classes(con, cursor, 214, 0.02, 0.3, 0.6, 0.9)
+ # make_classes(con, cursor, 336, 0.01, 0.1, 0.4, 0.85)
+ # make_classes(con, cursor, 344, 0.0, 0.1, 0.5, 1.0)
+ # make_classes(con, cursor, 352, 0.0, 0.01, 0.2, 0.4)
+ # make_classes(con, cursor, 416, 0.0, 0.03, 0.15, 0.25)
+ # make_classes(con, cursor, 440, 0.0, 0.03, 0.15, 0.25)
   
   con.close()
 
@@ -58,7 +65,7 @@ def make_self_assessments(con, cursor):
     make_skill(con, cursor, 'documentation', 2021, 0.75, 0.15, 0.1)
     make_skill(con, cursor, 'algo', 2021, 0.2, 0.5, 0.3)
     make_skill(con, cursor, 'quality', 2021, 0.15, 0.45, 0.3)
-    make_skill(con, cursor, 'communication', 2020, 0.14, 0.46, 0.50)
+    make_skill(con, cursor, 'communication', 2021, 0.14, 0.46, 0.50)
     make_skill(con, cursor, 'accountability', 2021, 0.03, 0.3, 0.67)
     make_skill(con, cursor, 'internships', 2021, 0.97, 0.03, 0.0, 0.0)
 
@@ -98,7 +105,7 @@ def make_self_assessments(con, cursor):
     make_skill(con, cursor, 'accountability', 2018, 0.05, 0.23, 0.72)
     make_skill(con, cursor, 'internships', 2018, 0.39, 0.3, 0.2, 0.08, 0.03)
 
-#def fill_classes(con, cursor):
+def fill_classes(con, cursor):
     make_classes(con, cursor, 213, 0.03, 0.05, 0.3, 0.4)
     make_classes(con, cursor, 214, 0.02, 0.3, 0.6, 0.9)
     make_classes(con, cursor, 336, 0.01, 0.1, 0.4, 0.85)
@@ -136,14 +143,14 @@ def make_skill(con, cursor, skill, gradyear, l1, l2, l3, l4=0, l5=0):
     con.commit()
   
   print('intermediate')
-  print(len(id_list))
+  print(intermediate)
   for i in range (0, intermediate):
     studentid = id_list.pop()
     cursor.execute("update skills set " + skill + "=%s where reviewerid=%s", ('2', studentid))
     con.commit()
   
   print('expert')
-  print(len(id_list))
+  print(expert)
   for i in range (0, expert):
     if len(id_list) == 0:
       print i
@@ -161,32 +168,43 @@ def make_skill(con, cursor, skill, gradyear, l1, l2, l3, l4=0, l5=0):
 
 
 def make_classes(con, cursor, classcode, f, s, j, se):
-  cursor.execute("select studentid from students where gradyear=2021")
-  print (int(f*cursor.rowcount))
+  print(classcode)
+  cursor.execute("select studentid from students where gradyear=2021 order by rand()")
+  #print (int(f*cursor.rowcount))
+  id_list = [item[0] for item in cursor.fetchall()]
   for i in range(0, int(f*cursor.rowcount)):
-    x = cursor.fetchone()
-    print x
+    studentid = id_list.pop()
+    #print x
     #print (cursor.fetchone())
-    cursor.execute("insert into taken values (%s, %s)", (classcode, x))
-    #con.commit()
-  #cursor.execute("select studentid from students where gradyear=2020 order by rand()")
- # for i in range(0, int(s*cursor.rowcount)):
- #   studentid = cursor.fetchone()
+    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    con.commit()
+  cursor.execute("select studentid from students where gradyear=2020 order by rand()")
+  id_list = [item[0] for item in cursor.fetchall()]
+  for i in range(0, int(s*cursor.rowcount)):
+    studentid = id_list.pop()
+    #studentid = cursor.fetchone()
  #   print studentid
- #   cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
- #   con.commit()
- # cursor.execute("select studentid from students where gradyear=2019 order by rand()")
-#  for i in range(0, int(j*cursor.rowcount)):
+    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    con.commit()
+  cursor.execute("select studentid from students where gradyear=2019 order by rand()")
+  id_list = [item[0] for item in cursor.fetchall()]
+  print(len(id_list))
+  for i in range(0, int(j*cursor.rowcount)):
+    if len(id_list) == 0:
+      print i
+    studentid = id_list.pop()
 #    studentid = cursor.fetchone()
 #    print studentid
-#    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
-#    con.commit()
-#  cursor.execute("select studentid from students where gradyear=2018 order by rand()")
-#  for i in range(0, int(se*cursor.rowcount)):
+    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    con.commit()
+  cursor.execute("select studentid from students where gradyear=2018 order by rand()")
+  id_list = [item[0] for item in cursor.fetchall()]
+  for i in range(0, int(se*cursor.rowcount)):
+    studentid = id_list.pop()
 #    studentid = cursor.fetchone()
 #    print studentid
-#    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
-#    con.commit()
+    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    con.commit()
 
 
 def make_ID(ID_list):

@@ -69,15 +69,46 @@ def main():
   #make_work_distribution(con, cursor, 416)
   #make_work_distribution(con, cursor, 440)
   
-  review_skills(con, cursor, 213)
-  review_skills(con, cursor,  214)
-  review_skills(con, cursor, 336)
-  review_skills(con, cursor, 344)
-  review_skills(con, cursor, 352)
-  review_skills(con, cursor, 416)
-  review_skills(con, cursor, 440)
+  #review_skills(con, cursor, 213)
+  #review_skills(con, cursor, 214)
+  #review_skills(con, cursor, 336)
+  #review_skills(con, cursor, 344)
+  #review_skills(con, cursor, 352)
+  #review_skills(con, cursor, 416)
+  #review_skills(con, cursor, 440)
+
+  review_repartner(con, cursor)
 
   con.close()
+
+def review_repartner(con, cursor):
+  cursor.execute("select * from reviews")
+  reviews = list(cursor.fetchall())
+  for i in range(0, len(reviews)):
+    curr = reviews.pop()
+    average = get_average_score(curr)
+    reviewer = curr[1]
+    partner = curr[2]
+    if average >= 0.5:
+       cursor.execute("update reviews set repartner=1 where reviewerid=%s and partnerid=%s", (reviewer, partner))
+    else:
+
+      cursor.execute("update reviews set repartner=0 where reviewerid=%s and partnerid=%s", (reviewer, partner))
+    con.commit()
+
+def get_average_score(tuple):
+  total = 0
+  num = 0
+  for i in range (4, len (tuple)):
+    if tuple[i] != None:
+      print tuple[i]
+      total += tuple[i]
+      num += 1
+  average = total/(float(num+99))
+  print average 
+  print(" ")
+  return average
+
 
 
 def review_skills(con, cursor, classcode):

@@ -22,9 +22,9 @@ def main():
   #cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
  # con.commit()
 
-#  cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
+  cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
 
-  cursor.execute("create table if not exists reviews(reviewerid INTEGER, partnerID INTEGER, class INTEGER, grade INTEGER, percentage INTEGER, repartner BOOL, prof VARCHAR (40);")
+  cursor.execute("create table if not exists reviews(class INTEGER, reviewerid INTEGER, partnerid INTEGER, grade INTEGER, percentage INTEGER, repartner INTEGER, prof VARCHAR (40));")
   #with open('students.csv', 'wb') as csvfile:
   #  filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
    # filewriter.writerow(['student_ID', 'name', 'gender', 'grad_year', 'GPA']) 
@@ -44,17 +44,27 @@ def main():
   #make_self_assessments(con, cursor)
   #cursor.execute("select * from skills")
   #cursor.execute("select * from skills")
-  fill_classes(con, cursor)
- # make_classes(con, cursor, 213, 0.03, 0.05, 0.3, 0.4)
- # make_classes(con, cursor, 214, 0.02, 0.3, 0.6, 0.9)
- # make_classes(con, cursor, 336, 0.01, 0.1, 0.4, 0.85)
- # make_classes(con, cursor, 344, 0.0, 0.1, 0.5, 1.0)
- # make_classes(con, cursor, 352, 0.0, 0.01, 0.2, 0.4)
- # make_classes(con, cursor, 416, 0.0, 0.03, 0.15, 0.25)
- # make_classes(con, cursor, 440, 0.0, 0.03, 0.15, 0.25)
-  
+  #fill_classes(con, cursor)
+  #make_pairs(con, cursor, 213)
+  #make_pairs(con, cursor, 214)
+  #make_pairs(con, cursor, 336)
+  #make_pairs(con, cursor, 344)
+  #make_pairs(con, cursor, 352)
+  #make_pairs(con, cursor, 416)
+  #make_pairs(con, cursor, 440)
+
+
   con.close()
 
+def make_pairs(con, cursor, classcode):
+  cursor.execute("""select studentid from taken where class = %s order by rand()""" %(classcode))
+  id_list = [item[0] for item in cursor.fetchall()]
+  print(len(id_list))
+  while (len(id_list)-1) > 0:
+    reviewer = id_list.pop()
+    partner = id_list.pop()
+    cursor.execute("insert into reviews (class, reviewerid, partnerid ) values (%s, %s, %s)", (classcode, reviewer, partner))
+    con.commit()
 
 def make_self_assessments(con, cursor):
     #all freshman skills
@@ -176,7 +186,7 @@ def make_classes(con, cursor, classcode, f, s, j, se):
     studentid = id_list.pop()
     #print x
     #print (cursor.fetchone())
-    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    cursor.execute("insert into taken values (%s, %s)", (studentid, classcode))
     con.commit()
   cursor.execute("select studentid from students where gradyear=2020 order by rand()")
   id_list = [item[0] for item in cursor.fetchall()]
@@ -184,7 +194,7 @@ def make_classes(con, cursor, classcode, f, s, j, se):
     studentid = id_list.pop()
     #studentid = cursor.fetchone()
  #   print studentid
-    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    cursor.execute("insert into taken values (%s, %s)", (studentid, classcode))
     con.commit()
   cursor.execute("select studentid from students where gradyear=2019 order by rand()")
   id_list = [item[0] for item in cursor.fetchall()]
@@ -195,7 +205,7 @@ def make_classes(con, cursor, classcode, f, s, j, se):
     studentid = id_list.pop()
 #    studentid = cursor.fetchone()
 #    print studentid
-    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    cursor.execute("insert into taken values (%s, %s)", (studentid, classcode))
     con.commit()
   cursor.execute("select studentid from students where gradyear=2018 order by rand()")
   id_list = [item[0] for item in cursor.fetchall()]
@@ -203,7 +213,7 @@ def make_classes(con, cursor, classcode, f, s, j, se):
     studentid = id_list.pop()
 #    studentid = cursor.fetchone()
 #    print studentid
-    cursor.execute("insert into taken values (%s, %s)", (classcode, studentid))
+    cursor.execute("insert into taken values (%s, %s)", (studentid, classcode))
     con.commit()
 
 

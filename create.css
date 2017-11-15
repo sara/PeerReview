@@ -1,0 +1,15 @@
+.header{
+  display:block;
+  text-align:center;
+  font-size: 50px;
+  font-weight:bold;
+  padding: 15px;
+}
+
+.searchforms{
+  display: block;
+  padding: 30px;
+  margin: 10px;
+  text-align:center;
+  
+}

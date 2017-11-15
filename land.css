@@ -1,0 +1,59 @@
+*{
+  margin: 0em;
+  padding: 0em;
+/*   background-color:steelblue; */
+ }
+
+.header{
+  display: block;
+  text-align:center;
+  padding: 2em;
+  font-size: 70px;
+  font-weight:bold;
+}
+
+.reviews{
+  text-align:center;
+  vertical-align: middle;
+}
+
+.student_review{
+  display:inline-block;
+  background-color:steelblue;
+  padding: 1px;
+  margin: 1px;
+  border: 2px solid black;
+  text-align:center;
+  font-size: 25px;
+  width: 290px;
+  height: 150px;
+
+}
+.class_review{
+  display:inline-block;
+  background-color:steelblue;
+  padding: 1px;
+  margin: 1px;
+  border: 2px solid black;
+  text-align:center;
+  font-size: 25px;
+  width: 290px;
+  height: 150px;
+}
+.teacher_review{
+  display:inline-block;
+  background-color:steelblue;
+  padding: 1px;
+  margin: 1px;
+  text-align:center;
+  border: 2px solid black;
+  font-size: 25px;
+  width: 290px;
+  height: 150px;
+}
+
+@media all and (min-width:500px) and (max-width:899px) {
+  .body { width: 50%; }
+@media all and (max-width:499px) {
+  .body { width: 100%; }
+}

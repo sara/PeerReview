@@ -16,32 +16,33 @@ def main():
   cursor.execute("create database IF NOT EXISTS PeerReview")
   con.commit()
 
-#  cursor.execute("create table IF NOT EXISTS students(studentid INTEGER, name VARCHAR (40), gender VARCHAR (6), gradyear INTEGER, gpa DOUBLE);")
- # con.commit()
+  cursor.execute("create table IF NOT EXISTS students(studentid INTEGER, name VARCHAR (40), gender VARCHAR (6), gradyear INTEGER, gpa DOUBLE);")
+  con.commit()
 
-  #cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
- # con.commit()
+  cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
+  con.commit()
 
   cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
 
   cursor.execute("create table if not exists reviews(class INTEGER, reviewerid INTEGER, partnerid INTEGER, grade INTEGER, percentage INTEGER, repartner INTEGER, prof VARCHAR (40));")
-  #with open('students.csv', 'wb') as csvfile:
-  #  filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
-   # filewriter.writerow(['student_ID', 'name', 'gender', 'grad_year', 'GPA']) 
-    #ID_list = []
+  with open('students.csv', 'wb') as csvfile:
+    filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
+    filewriter.writerow(['student_ID', 'name', 'gender', 'grad_year', 'GPA']) 
+    ID_list = []
 
  
-    #make_students(filewriter, cursor, 114, ID_list, 'female', 2021)
-    #make_students(filewriter, cursor, 386, ID_list, 'male', 2021)
-    #make_students(filewriter, cursor, 213, ID_list, 'female', 2020)
-    #make_students(filewriter, cursor, 1037, ID_list, 'male', 2020)
-    #make_students(filewriter, cursor, 235, ID_list, 'female', 2019)
-    #make_students(filewriter, cursor, 1265, ID_list, 'male', 2019)
-    #make_students(filewriter, cursor, 263, ID_list, 'female', 2018)
-    #make_students(filewriter, cursor, 1487, ID_list, 'male', 2018)
-    #con.commit()
+  #make_students(filewriter, cursor, 114, ID_list, 'female', 2021)
+  #make_students(filewriter, cursor, 386, ID_list, 'male', 2021)
+  #make_students(filewriter, cursor, 213, ID_list, 'female', 2020)
+  #make_students(filewriter, cursor, 1037, ID_list, 'male', 2020)
+  #make_students(filewriter, cursor, 235, ID_list, 'female', 2019)
+  #make_students(filewriter, cursor, 1265, ID_list, 'male', 2019)
+  #make_students(filewriter, cursor, 263, ID_list, 'female', 2018)
+  #make_students(filewriter, cursor, 1487, ID_list, 'male', 2018)
+  #con.commit()
 
   #make_self_assessments(con, cursor)
+  
   #cursor.execute("select * from skills")
   #cursor.execute("select * from skills")
   #fill_classes(con, cursor)
@@ -61,21 +62,21 @@ def main():
   #make_grades(con, cursor, 416, 0.15, 0.25, 0.4, 0.2)
   #make_grades(con, cursor, 440, 0.18 ,0.27, 0.3, 0.25)
   
-  make_work_distribution(con, cursor, 213)
-  make_work_distribution(con, cursor, 214)
-  make_work_distribution(con, cursor, 336)
-  make_work_distribution(con, cursor, 344)
-  make_work_distribution(con, cursor, 352)
-  make_work_distribution(con, cursor, 416)
-  make_work_distribution(con, cursor, 440)
+  #make_work_distribution(con, cursor, 213)
+  #make_work_distribution(con, cursor, 214)
+  #make_work_distribution(con, cursor, 336)
+  #make_work_distribution(con, cursor, 344)
+  #make_work_distribution(con, cursor, 352)
+  #make_work_distribution(con, cursor, 416)
+  #make_work_distribution(con, cursor, 440)
   
-  review_skills(con, cursor, 213)
-  review_skills(con, cursor, 214)
-  review_skills(con, cursor, 336)
-  review_skills(con, cursor, 344)
-  review_skills(con, cursor, 352)
-  review_skills(con, cursor, 416)
-  review_skills(con, cursor, 440)
+  #review_skills(con, cursor, 213)
+  #review_skills(con, cursor, 214)
+  #review_skills(con, cursor, 336)
+  #review_skills(con, cursor, 344)
+  #review_skills(con, cursor, 352)
+  #review_skills(con, cursor, 416)
+  #review_skills(con, cursor, 440)
 
   review_repartner(con, cursor)
 
@@ -86,25 +87,27 @@ def review_repartner(con, cursor):
   reviews = list(cursor.fetchall())
   for i in range(0, len(reviews)):
     curr = reviews.pop()
-    average = get_average_score(curr)
+    percentage = curr[4]
     reviewer = curr[1]
     partner = curr[2]
+    average = get_average_score(percentage, cursor, reviewer, partner)
     if average >= 0.5:
        cursor.execute("update reviews set repartner=1 where reviewerid=%s and partnerid=%s", (reviewer, partner))
     else:
-
       cursor.execute("update reviews set repartner=0 where reviewerid=%s and partnerid=%s", (reviewer, partner))
     con.commit()
 
-def get_average_score(tuple):
-  total = 0
+def get_average_score(percentage, cursor, reviewer, partner):
+  total = percentage
   num = 0
-  for i in range (4, len (tuple)):
-    if tuple[i] != None:
-      print tuple[i]
-      total += tuple[i]
-      num += 1
-  average = total/(float(num+99))
+  cursor.execute("select * from skills where reviewerid=%s and partnerid=%s", (reviewer, partner))
+  skillset = cursor.fetchone()
+  for i in range (2, len (skillset)):
+    if skillset[i] != None:
+      print skillset[i]
+      total += skillset[i]
+      num += 3
+  average = total/(float(num+100))
   print average 
   print(" ")
   return average
@@ -116,20 +119,21 @@ def review_skills(con, cursor, classcode):
      pair = pair_list.pop()
      reviewer = pair[0]
      partner = pair[1]
+     print (reviewer, partner)
      if classcode == 213:
        java = randint(1, 3)
-       cursor.execute("update reviews set java=%s where partnerid=%s and reviewerid=%s", (java, partner, reviewer))
+       cursor.execute("update skills set java=%s where partnerid=%s and reviewerid=%s", (java, partner, reviewer))
      elif classcode == 214 or classcode == 416:
        c = randint(1, 3)
-       cursor.execute("update reviews set c=%s where partnerid=%s and reviewerid=%s", (c, partner, reviewer))
+       cursor.execute("update skills set c=%s where partnerid=%s and reviewerid=%s", (c, partner, reviewer))
      elif classcode == 352:
        python = randint(1, 3)
-       cursor.execute("update reviews set python=%s where partnerid=%s and reviewerid=%s", (python, partner, reviewer))
+       cursor.execute("update skills set python=%s where partnerid=%s and reviewerid=%s", (python, partner, reviewer))
      quality = randint(1, 3)
      communication = randint (1, 3)
      documentation = randint (1, 3)
      accountability = randint (1, 3)
-     cursor.execute("update reviews set quality=%s, communication=%s, documentation=%s, accountability=%s where partnerid=%s and reviewerid=%s", (quality, communication, documentation, accountability, partner, reviewer))
+     cursor.execute("update skills set quality=%s, communication=%s, documentation=%s, accountability=%s where partnerid=%s and reviewerid=%s", (quality, communication, documentation, accountability, partner, reviewer))
      con.commit()
     
 def make_work_distribution(con, cursor, classcode):
@@ -188,35 +192,35 @@ def make_grades(con, cursor, classcode, numA, numB, numC, numD):
   d = int(numD*count)
   
   for i in range(0, a):
+    print (i)
     reviewerid = id_list.pop()
     cursor.execute("update reviews set grade=%s where reviewerid=%s", ('4', reviewerid))
     con.commit()
   for i in range(0, b):
+     print (i)
      reviewerid = id_list.pop()
      cursor.execute("update reviews set grade=%s where reviewerid=%s", ('3', reviewerid))
      con.commit()
   for i in range (0, c):
+    print (i)
     reviewerid = id_list.pop()
     cursor.execute("update reviews set grade=%s where reviewerid=%s", ('2', reviewerid))
     con.commit()
   for i in range(0, d):
+    print (i)
     reviewerid = id_list.pop()
     cursor.execute("update reviews set grade=%s where reviewerid=%s", ('1', reviewerid))
     con.commit()
-  
-  
-
-
-
 
 def make_pairs(con, cursor, classcode):
   cursor.execute("""select studentid from taken where class = %s order by rand()""" %(classcode))
-  id_list = [item[0] for item in cursor.fetchall()]
+  id_list = list(cursor.fetchall())
   print(len(id_list))
   while (len(id_list)-1) > 0:
     reviewer = id_list.pop()
     partner = id_list.pop()
     cursor.execute("insert into reviews (class, reviewerid, partnerid ) values (%s, %s, %s)", (classcode, reviewer, partner))
+    cursor.execute("insert into skills (reviewerid, partnerid) values (%s, %s)", (reviewer, partner))
     con.commit()
 
 def make_self_assessments(con, cursor):
@@ -228,7 +232,7 @@ def make_self_assessments(con, cursor):
     make_skill(con, cursor, 'documentation', 2021, 0.75, 0.15, 0.1)
     make_skill(con, cursor, 'algo', 2021, 0.2, 0.5, 0.3)
     make_skill(con, cursor, 'quality', 2021, 0.15, 0.45, 0.3)
-    make_skill(con, cursor, 'communication', 2021, 0.14, 0.46, 0.50)
+    make_skill(con, cursor, 'communication', 2021, 0.04, 0.46, 0.50)
     make_skill(con, cursor, 'accountability', 2021, 0.03, 0.3, 0.67)
     make_skill(con, cursor, 'internships', 2021, 0.97, 0.03, 0.0, 0.0)
 
@@ -285,7 +289,7 @@ def make_students(filewriter, cursor, num_students, ID_list, gender, gradyear):
     studentid = make_ID(ID_list)
     print (name)
     cursor.execute("insert into students (studentid, name, gender, gradyear) values (%s, %s, %s, %s)", (studentid, name, gender, gradyear))
-    filewriter.writerow([make_ID(ID_list), name, gender, gradyear])
+    #filewriter.writerow([make_ID(ID_list), name, gender, gradyear])
     cursor.execute("insert into skills(reviewerid, partnerid, python, c, java, javascript, algo, quality, communication, documentation, accountability, internships) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (studentid, studentid, '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'))
 
 
@@ -376,7 +380,6 @@ def make_ID(ID_list):
   while True:
     num = randint(range_start, range_end)
     if num not in ID_list:
-      num = randint(range_start, range_end)
       ID_list.append(num)
       return num
 

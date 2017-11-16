@@ -3,6 +3,7 @@ import names
 import random
 from random import randint
 import MySQLdb
+from app import engine
 
 randint (00000, 99999)
 #Generating all students - 5000 people in codebase in total
@@ -10,25 +11,29 @@ randint (00000, 99999)
 
 
 def main():
-  con = MySQLdb.connect("localhost", "root", "96Ladybug", "PeerReview")
-  cursor = con.cursor()
-  cursor.execute("SET sql_notes = 0; ")
-  cursor.execute("create database IF NOT EXISTS PeerReview")
-  con.commit()
+  con = engine.connect()
+  result = con.execute("select * from students")
+  for row in result:
+    print("studentid:", row['studentid'])
+  #con = MySQLdb.connect("localhost", "root", "96Ladybug", "PeerReview")
+  #cursor = con.cursor()
+  #cursor.execute("SET sql_notes = 0; ")
+  #cursor.execute("create database IF NOT EXISTS PeerReview")
+  #con.commit()
 
-  cursor.execute("create table IF NOT EXISTS students(studentid INTEGER, name VARCHAR (40), gender VARCHAR (6), gradyear INTEGER, gpa DOUBLE);")
-  con.commit()
+  #cursor.execute("create table IF NOT EXISTS students(studentid INTEGER, name VARCHAR (40), gender VARCHAR (6), gradyear INTEGER, gpa DOUBLE);")
+  #con.commit()
 
-  cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
-  con.commit()
+  #cursor.execute("create table if not exists skills(reviewerid INTEGER, partnerid INTEGER, python INTEGER, c INTEGER, java INTEGER, javascript INTEGER, algo INTEGER, quality INTEGER, communication INTEGER, documentation INTEGER, accountability INTEGER, internships INTEGER);")
+  #con.commit()
 
-  cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
+  #cursor.execute("create table if not exists taken(studentid INTEGER, class INTEGER);")
 
-  cursor.execute("create table if not exists reviews(class INTEGER, reviewerid INTEGER, partnerid INTEGER, grade INTEGER, percentage INTEGER, repartner INTEGER, prof VARCHAR (40));")
-  with open('students.csv', 'wb') as csvfile:
-    filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
-    filewriter.writerow(['student_ID', 'name', 'gender', 'grad_year', 'GPA']) 
-    ID_list = []
+  #cursor.execute("create table if not exists reviews(class INTEGER, reviewerid INTEGER, partnerid INTEGER, grade INTEGER, percentage INTEGER, repartner INTEGER, prof VARCHAR (40));")
+  #with open('students.csv', 'wb') as csvfile:
+   # filewriter = csv.writer(csvfile, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
+    #filewriter.writerow(['student_ID', 'name', 'gender', 'grad_year', 'GPA']) 
+    #ID_list = []
 
  
   #make_students(filewriter, cursor, 114, ID_list, 'female', 2021)
@@ -78,9 +83,9 @@ def main():
   #review_skills(con, cursor, 416)
   #review_skills(con, cursor, 440)
 
-  review_repartner(con, cursor)
+  #review_repartner(con, cursor)
 
-  con.close()
+  #con.close()
 
 def review_repartner(con, cursor):
   cursor.execute("select * from reviews")

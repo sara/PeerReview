@@ -5,6 +5,11 @@
   font-weight:bold;
   padding: 15px;
 }
+body{
+  background-color: steelblue;
+  font-family: 'Montserrat', sans-serif;
+  text-align:center;
+}
 .identification{
   display: block;
   padding: 30px;

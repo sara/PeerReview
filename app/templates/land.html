@@ -1,32 +1,25 @@
 <!-- !DOCTYPE -->
 <div class="header">
-    <link rel="stylesheet" type="text/css" href="../static/css/land.css">
+    <link rel="stylesheet" type="text/css" href="land.css">
   <span> Peer Review</span>
 </div>
 
-<form method="POST" action ="/">
-  <div> {{ form.studentid.label }}: {{ form.studentid() }} </div>
-  <div> {{ form.professorid.label }}: {{ form.professorid() }} </div>
-  <div> {{ form.classID.label }}: {{ form.classID() }} </div>
-  <div class="input submit">
-      <input type ="submit" value = "Submit"/>
-  </div>
-</form>
-<!--<div class="reviews">
+<form method="POST" action = "/">
+<div class="reviews">
   <div class="student_review">
     <span>Student Review</span>
-    <input type="text" name="search" placeholder="Search Student">
+   <div> {{ form.studentid.label }} : {{ form.studentid() }} </div>
   </div>
 
   <div class="class_review">
     <span>Class Review</span> <br>
-    <input type="text" name="search" placeholder="Search Class">
+      <div>{{ form.classID.label }} : {{ form.classID() }} </div>
   </div>
 
   <div class="teacher_review">
     <span>Teacher Review</span>
-    <input type="text" name="search" placeholder="Search Teacher">
-    <label for="search" id="search"></label>
-  </div>-->
-
+    <div> {{ form.professorid.label }} : {{ form.professorid() }} </div>
+  </div>
+  <input type="submit" value= "Submit">
 </div>
+

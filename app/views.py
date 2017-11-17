@@ -5,11 +5,10 @@ from forms import SearchForm
 @app.route('/', methods=['GET', 'POST'])
 def index():
   form = SearchForm(request.form)
+  con = engine.connect()
   if request.method == 'POST' and form.validate():
     if form.data['studentid']:
-      return get_student(form.data['studentid'])
-    #if form.data['studentid']:
-    #  return str(form.data['studentid'])
+      return get_student(form.data['studentid'], con)
   
   else:
     #studentid = form.data['studentid']
@@ -27,13 +26,8 @@ def index():
   #  print("studentid:", row['studentid'])
    return render_template('land.html', form=form)
 
-def get_student(studentid):
-  #identifier = request.form['student']
-  #print identifier
-  return 'doop'
-  if any (i.isdigit() for i in identifier):
-    return 'doop'
-    if (con.execute("select * from students where studentid = %s", (identifier)) != Non):
+def get_student(name, con):
+  if (con.execute("select * from students where name=%s", (name)) != None):
       return 'hello world'
 #  if any(i.isdigit() for i in s):
 #    if (select * from students where studentid = student_identifier) != None:

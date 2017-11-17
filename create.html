@@ -3,27 +3,44 @@
   <link rel="stylesheet" type="text/css" href="create.css">
   <span> We couldn't find what you were looking for...</span>
 </div>
-
-<div class="searchforms">
-  <input type="text" name="search" placeholder="Enter Name">
-  <input type="text" name="search" placeholder="Enter ID#">
+<form action="#">
+<div class="identification">
+  <input type="text" name="namen" placeholder="Enter Name">
+  <input type="text" name="idnum" placeholder="Enter ID#">
 </div>
 
 <div class="gender">
-  <span>Gender</span>
-  <form action="">
-   <input type="radio" name="GenderM" value="Male">Male<br>
-   <input type="radio" name="GenderF" value="Female">Female<br>
-  </form>  
+  <span>Gender</span><br>
+   <input type="radio" name="Gender" value="Male">Male<br>
+   <input type="radio" name="Gender" value="Female">Female <br>
+  <span>Grad Year</span><br>
+     <input type="radio" name="gradyear" value="k18">2018
+     <input type="radio" name="gradyear" value="k19">2019
+     <input type="radio" name="gradyear" value="k20">2020
+     <input type="radio" name="gradyear" value="k21">2021
 </div>
 
 <div class="range">
   <span>Python</span>
-  <input type="range"min="1" max="10" value="50" class="slider">
-  <span>JavaScript</span>
-  <input type="range"min="1" max="10" value="50" class="slider">
+  1<input type="range" name="PY" min="1" max="10" value="5">10
+  <br><span>JavaScript</span>
+  1<input type="range" name="JS" min="1" max="10" value="5">10
+  <br><span>Java</span>
+  1<input type="range" name="JA" min="1" max="10" value="5">10
+  <br><span>C</span>
+  1<input type="range" name="C" min="1" max="10" value="5">10
+  <br><span>Algorithms</span>
+  1<input type="range" name="AL" min="1" max="10" value="5">10
+  <br><span>Work Quality</span>
+  1<input type="range" name="WQ" min="1" max="10" value="5">10
+  <br><span>Communication</span>
+  1<input type="range" name="CO" min="1" max="10" value="5">10
+    <br><span>Documentation</span>
+  1<input type="range" name="DO" min="1" max="10" value="5">10
+    <br><span>Accountability</span>
+  1<input type="range" name="AC" min="1" max="10" value="5">10
 </div>
-
-<div class="submit">
   <input type="submit" value="Submit">
-</div>
+</form>
+
+    

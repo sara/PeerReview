@@ -4,11 +4,12 @@ from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
-#app.config('SQLALCHEMY_DATABASE_URI'] = 'mysql://scott:tiger@localhost/mydatabase'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://scott:tiger@localhost/mydatabase'
 #db = SQLAlchemy(app)
 
 
-engine = create_engine('mysql://root:96Ladybug@localhost:8080/PeerReview')
+engine = create_engine('mysql://root:Jojo2995@localhost:8080/PeerReview')
 #dialect_driver://username:password@host:port/database
-from views import *
 
+
+from views import *

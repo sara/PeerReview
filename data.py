@@ -15,7 +15,7 @@ def main():
   result = con.execute("select * from students")
   for row in result:
     print("studentid:", row['studentid'])
-  #con = MySQLdb.connect("localhost", "root", "96Ladybug", "PeerReview")
+  con = MySQLdb.connect("localhost", "root", "96Ladybug", "PeerReview")
   #cursor = con.cursor()
   #cursor.execute("SET sql_notes = 0; ")
   #cursor.execute("create database IF NOT EXISTS PeerReview")

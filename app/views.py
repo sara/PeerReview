@@ -1,35 +1,34 @@
-from flask import request, render_template
+from flask import request, render_template, redirect, url_for
 from app import app, engine
 from forms import SearchForm
 
 @app.route('/', methods=['GET', 'POST'])
-def index():
+def landing():
   form = SearchForm(request.form)
   con = engine.connect()
   if request.method == 'POST' and form.validate():
     if form.data['studentid']:
       return get_student(form.data['studentid'], con)
-  
   else:
-    #studentid = form.data['studentid']
-    #if studentid != None:
-      #return str(studentid)
-  #con = engine.connect()
-  #students = con.execute("select * from students")
-  #ids = []
-  #for row in students:
-  #  ids.append(row[0])
-    #x = row['studentid']
-  #con.close()
-  #return str(ids)
-  #for row in result:
-  #  print("studentid:", row['studentid'])
-   return render_template('land.html', form=form)
+    return render_template('land.html', form=form)
 
 def get_student(name, con):
-  if (con.execute("select * from students where name=%s", (name)) != None):
-      return 'hello world'
-#  if any(i.isdigit() for i in s):
+  result = con.execute("select * from students where name=%s", (name)).fetchall()
+  result_dict = dict((col, getattr(studentid, name, gender, gradyear)) for col in result[0]
+  if len(result_dict) != 0:
+    return redirect(url_for('index', query=result))
+  else:
+    return redirect(url_for('land'))
+
+
+@app.route('/results/<query>', methods=['GET', 'POST'])
+def index(query):
+  return render_template('results.html', results=query)
+
+@app.route('/create', methods=['GET', 'POST'])
+def land():
+  return render_template('create.html')
+    #  if any(i.isdigit() for i in s):
 #    if (select * from students where studentid = student_identifier) != None:
 #      return student_identifier
 #    else:

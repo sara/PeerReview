@@ -1,0 +1,21 @@
+<DOCTYPE html>
+
+<table>
+  <tr>
+    <th> Student ID </th>
+    <th> Student Name </th>
+    <th> Gender </th>
+    <th> Grad Year </th>
+  </tr>  
+  {% for result in results %}
+  <tr>
+    {% for field in result %}
+      <td> {{ field }}  </td>
+    {% endfor %} 
+      <!--<td> {{ result [1] }} </td>
+      <td> {{ result[2] }} </td>
+      <td> {{ result [3] }} </td>-->
+  </tr>
+  {% endfor %}
+<table>
+</html>

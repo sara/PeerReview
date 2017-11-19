@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
 *{
   padding:0px;
   margin:0px;
   background-color: steelblue;
+  font-family: 'Roboto Slab', serif;
   vertical-align:center;
   text-align:center;
 }
@@ -26,21 +26,21 @@
   border: 1px solid black;
   width: 250px;
   height: 250px;
-  background-color:white;
+  background-color:#99ccff;
 }
 .professor > ul{
   text-align:center;
-  background-color:white;
+  background-color:#99ccff;
 }
 .professor > ul > li{
   text-align:center;
   padding: 25px;  
-  background-color:white;
+  background-color:#99ccff;
 
 }
 .professor > ul > li > a{
   text-decoration:none;
-  background-color:white;
+  background-color:#99ccff;
 }
 
 .stats{
@@ -50,15 +50,14 @@
   height: 280px;
 /*   text-align:center; */
   margin: 50px;
-  background-color:white;
+  background-color:#99ccff;
 /*   position: relative;
   bottom: 380px;
   left: 600px; */
 }
 .stats > span{
-  background-color:white;
+  background-color:#99ccff;
   font-weight: bold;
-  font-family: uppercase;
 }
 .reviews{
   display: block;
@@ -66,9 +65,9 @@
   width: 80%;
   margin: 80px;
   padding: 50px;
-  background-color:white;
+  background-color:#99ccff;
 }
 .reviews > span {
-  background-color:white;
+  background-color:#99ccff;
   font-weight:bold;  
 }

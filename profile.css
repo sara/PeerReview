@@ -1,15 +1,15 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
 
 body{
   background-color: steelblue;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto Slab', serif;
   text-align:center;
 }
 .header{
   display: block;
   text-align:left;
   padding: 15px;
-  color:white;
   text-decoration:none;
 }
 .Identification{
@@ -24,17 +24,7 @@ body{
   margin:45px;
   width: 255px;
   height:275px;
-  background-color:white;
-  
-}
-.proflink{
-  display:block;
-  border: 1px solid black;
-  margin:45px;
-  width: 255px;
-  height:35px;
-  margin:auto;
-  background-color:white;
+  background-color:#99ccff; 
 }
 .avgstats{
   display:inline-block;
@@ -43,25 +33,25 @@ body{
   width: 225px;
   height:225px;
   font-weight:bold;
-  background-color:white;
+  background-color:#99ccff;
 }
-.Gender{
+.SelfEval{
   display:inline-block;
   border: 1px solid black;
   margin:10px;
   width: 225px;
   height:225px;
   font-weight:bold;
-  background-color:white;
+  background-color:#99ccff;
 }
 .review{
   display:block;
-  margin: 25px;
+  margin: auto;
   padding: 25px;
   text-align:left;
   font-size: 25px;
   border: 1px solid black;
   width:50%;
   height: 175px;
-  background-color: white;
+  background-color: #99ccff;
 }

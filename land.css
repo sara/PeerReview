@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+
 *{
   margin: 0em;
   padding: 0em;
-/*   background-color:steelblue; */
+  font-family: 'Roboto Slab', serif;
+  background-color:steelblue;
  }
 
 .header{
@@ -11,7 +14,9 @@
   font-size: 70px;
   font-weight:bold;
 }
-
+.header > .dgs{
+  font-size: 20px;
+}
 .reviews{
   text-align:center;
   vertical-align: middle;
@@ -19,7 +24,7 @@
 
 .student_review{
   display:inline-block;
-  background-color:steelblue;
+  background-color:#99ccff;
   padding: 1px;
   margin: 1px;
   border: 2px solid black;
@@ -28,10 +33,19 @@
   width: 290px;
   height: 150px;
 
+}
+.student_review > span{
+  background-color: #99ccff;
+}
+.student_review > form {
+  background-color: #99ccff;
+}
+input[type=text], textarea{
+  background-color:white;
 }
 .class_review{
   display:inline-block;
-  background-color:steelblue;
+  background-color:#99ccff;
   padding: 1px;
   margin: 1px;
   border: 2px solid black;
@@ -39,10 +53,16 @@
   font-size: 25px;
   width: 290px;
   height: 150px;
+}
+.class_review > span{
+  background-color:#99ccff;
+}
+.class_review > form{
+  background-color:#99ccff;
 }
 .teacher_review{
   display:inline-block;
-  background-color:steelblue;
+  background-color:#99ccff;
   padding: 1px;
   margin: 1px;
   text-align:center;
@@ -51,7 +71,12 @@
   width: 290px;
   height: 150px;
 }
-
+.teacher_review > span{
+  background-color: #99ccff;
+}
+.teacher_review > form{
+  background-color:#99ccff;
+}
 @media all and (min-width:500px) and (max-width:899px) {
   .body { width: 50%; }
 @media all and (max-width:499px) {

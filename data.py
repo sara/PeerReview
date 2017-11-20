@@ -338,28 +338,28 @@ def make_skill(con, cursor, skill, gradyear, l1, l2, l3, l4=0, l5=0):
     con.commit()
 
 def make_profs(con, cursor):
-  cursor.execute("select reviewerid, partnerid from taken where class=214")
-  id_list = [item[0] for item in cursor.fetchall()]
+  cursor.execute("select reviewerid, partnerid from reviews where class=214")
+  id_list = list(cursor.fetchall())
   for i in range(len(id_list)/2):
     curr = id_list.pop()
-    reviewierid = curr[0]
+    reviewerid = curr[0]
     partnerid = curr[1]
     cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', reviewerid)) 
     con.commit()
     cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', partnerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Francisco', curr, 214)) 
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Francisco', reviewerid, 214)) 
     con.commit()
  
-   for i in range(len(id_list)/2):
+  for i in range(len(id_list)/2):
     curr = id_list.pop()
-    reviewierid = curr[0]
+    reviewerid = curr[0]
     partnerid = curr[1]
     cursor.execute("update taken set prof=%s where studentid=%s", ('Santosh', reviewerid)) 
     con.commit()
     cursor.execute("update taken set prof=%s where studentid=%s", ('Santosh', partnerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Santosh', curr, 214)) 
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Santosh', reviewerid, 214)) 
     con.commit()
  
   
@@ -368,87 +368,127 @@ def make_profs(con, cursor):
 
 #SEE ABOVE - GIVE ALL CLASSES PROFESSORS, MAKE SURE PARTNER AND REVIEWER HAVE BOTH TAKEN SAME PROF AND THAT THE PROF IS IN THE REVIEW
 
-cursor.execute("select studentid from taken where class=336")
-  id_list = [item[0] for item in cursor.fetchall()]
+  cursor.execute("select reviewerid, partnerid from reviews where class=336")
+  id_list = list(cursor.fetchall())
   for i in range(len(id_list)/2):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Imielinski', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Imielinski', reviewerid))
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Imielinski', curr, 336)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Imielinski', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Imielinski', reviewerid, 336)) 
     con.commit()
   for i in range(len(id_list)):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Miranda', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Miranda', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Miranda', curr, 336)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Miranda', partnerid)) 
     con.commit()
- 
-  
-  cursor.execute("select studentid from taken where class=344")
-  id_list = [item[0] for item in cursor.fetchall()]
-  for i in range(len(id_list)/2):
-    curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('FarachColton', curr)) 
-    con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('FarachColton', curr, 344)) 
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Miranda', reviewerid, 336)) 
     con.commit()
  
-  for i in range(len(id_list)):
-    curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Muthukrishnan', curr)) 
-    con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Muthukrishnan', curr, 344)) 
-    con.commit()
   
-  
-  cursor.execute("select studentid from taken where class=352")
-  id_list = [item[0] for item in cursor.fetchall()]
+  cursor.execute("select reviewerid, partnerid from reviews where class=344")
+  id_list = list(cursor.fetchall())
   for i in range(len(id_list)/2):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Nath', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('FarachColton', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Nath', curr, 352)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('FarachColton', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('FarachColton', reviewerid, 344)) 
     con.commit()
  
   for i in range(len(id_list)):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Martin', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Muthukrishnan', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Martin', curr, 352)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Muthukrishnan', partnerid)) 
     con.commit()
- 
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Muthukrishnan', reviewerid, 344)) 
+    con.commit()
   
-  cursor.execute("select studentid from taken where class=416")
-  id_list = [item[0] for item in cursor.fetchall()]
+  
+  cursor.execute("select reviewerid, partnerid from reviews where class=352")
+  id_list = list(cursor.fetchall())
   for i in range(len(id_list)/2):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('PK', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Nath', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('PK', curr, 416)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Nath', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Nath', reviewerid, 352)) 
     con.commit()
  
   for i in range(len(id_list)):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Martin', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Francisco', curr, 416)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Martin', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Martin', reviewerid, 352)) 
     con.commit()
  
   
-  cursor.execute("select studentid from taken where class=440")
-  id_list = [item[0] for item in cursor.fetchall()]
+  cursor.execute("select reviewerid, partnerid from reviews where class=416")
+  id_list = list(cursor.fetchall())
   for i in range(len(id_list)/2):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Bekris', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('PK', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Bekris', curr, 440))
+    cursor.execute("update taken set prof=%s where studentid=%s", ('PK', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('PK', reviewerid, 416)) 
     con.commit()
  
   for i in range(len(id_list)):
     curr = id_list.pop()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Bolaris', curr)) 
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', reviewerid)) 
     con.commit()
-    cursor.execute("update reviews set prof=%s where studentid=%s and class=%s", ('Bolaris', curr, 440)) 
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Francisco', reviewerid, 416)) 
+    con.commit()
+ 
+  
+  cursor.execute("select reviewerid, partnerid from reviews where class=440")
+  id_list = list(cursor.fetchall())
+  for i in range(len(id_list)/2):
+    curr = id_list.pop()
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Bekris', reviewerid)) 
+    con.commit()
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Bekris', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Bekris', reviewerid, 440))
+    con.commit()
+ 
+  for i in range(len(id_list)):
+    curr = id_list.pop()
+    reviewerid = curr[0]
+    partnerid = curr[1]
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Bolaris', reviewerid)) 
+    con.commit()
+    cursor.execute("update taken set prof=%s where studentid=%s", ('Bolaris', partnerid)) 
+    con.commit()
+    cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Bolaris', reviewerid, 440)) 
     con.commit()
  
 

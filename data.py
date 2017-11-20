@@ -344,9 +344,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=214 and studentid=%s", ('Francisco', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=214 and studentid=%s", ('Francisco', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Francisco', reviewerid, 214)) 
     con.commit()
@@ -355,9 +355,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Santosh', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=214 and studentid=%s", ('Santosh', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Santosh', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=214 and studentid=%s", ('Santosh', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Santosh', reviewerid, 214)) 
     con.commit()
@@ -374,9 +374,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Imielinski', reviewerid))
+    cursor.execute("update taken set prof=%s where studentid=%s and class = 336", ('Imielinski', reviewerid))
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Imielinski', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=336 and studentid=%s", ('Imielinski', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Imielinski', reviewerid, 336)) 
     con.commit()
@@ -384,9 +384,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Miranda', reviewerid)) 
+    cursor.execute("update taken set prof=%s where studentid=%s and class=336", ('Miranda', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Miranda', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=336 and studentid=%s", ('Miranda', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Miranda', reviewerid, 336)) 
     con.commit()
@@ -398,9 +398,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('FarachColton', reviewerid)) 
+    cursor.execute("update taken set prof=%s where studentid=%s and class = 344", ('FarachColton', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('FarachColton', partnerid)) 
+    cursor.execute("update taken set prof=%s where studentid=%s and class=344", ('FarachColton', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('FarachColton', reviewerid, 344)) 
     con.commit()
@@ -409,9 +409,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Muthukrishnan', reviewerid)) 
+    cursor.execute("update taken set prof=%s where studentid=%s and class= 344", ('Muthukrishnan', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Muthukrishnan', partnerid)) 
+    cursor.execute("update taken set prof=%s where studentid=%s and class=344", ('Muthukrishnan', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Muthukrishnan', reviewerid, 344)) 
     con.commit()
@@ -423,9 +423,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Nath', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=352 and studentid=%s", ('Nath', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Nath', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=352 and studentid=%s", ('Nath', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Nath', reviewerid, 352)) 
     con.commit()
@@ -434,9 +434,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Martin', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=352 and studentid=%s", ('Martin', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Martin', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=352 and studentid=%s", ('Martin', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Martin', reviewerid, 352)) 
     con.commit()
@@ -448,9 +448,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('PK', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=416 and studentid=%s", ('PK', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('PK', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=416 and studentid=%s", ('PK', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('PK', reviewerid, 416)) 
     con.commit()
@@ -459,9 +459,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=416 and studentid=%s", ('Francisco', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Francisco', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=416 and studentid=%s", ('Francisco', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Francisco', reviewerid, 416)) 
     con.commit()
@@ -473,9 +473,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Bekris', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=440 and studentid=%s", ('Bekris', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Bekris', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=440 and studentid=%s", ('Bekris', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Bekris', reviewerid, 440))
     con.commit()
@@ -484,9 +484,9 @@ def make_profs(con, cursor):
     curr = id_list.pop()
     reviewerid = curr[0]
     partnerid = curr[1]
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Bolaris', reviewerid)) 
+    cursor.execute("update taken set prof=%s where class=440 and studentid=%s", ('Bolaris', reviewerid)) 
     con.commit()
-    cursor.execute("update taken set prof=%s where studentid=%s", ('Bolaris', partnerid)) 
+    cursor.execute("update taken set prof=%s where class=440 and studentid=%s", ('Bolaris', partnerid)) 
     con.commit()
     cursor.execute("update reviews set prof=%s where reviewerid=%s and class=%s", ('Bolaris', reviewerid, 440)) 
     con.commit()

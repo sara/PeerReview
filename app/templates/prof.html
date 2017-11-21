@@ -1,0 +1,65 @@
+<DOCTYPE html>
+<div class="header">
+  <link rel="stylesheet" type="text/css" href="prof.css">
+<!--   NOT LINKED -->
+</div>
+
+<div class="profilebox">
+  <div class="Identification">
+    <span>Professor Name: {{ prof }} </span> <br>
+    <span>Class: {{ course }}</span>
+  </div>
+  </div>
+
+  <!--<div class="avgstats">
+    <span>Average Stats</span>
+  </div>-->
+</div>
+<div class="review">
+  <table border="1">
+    <tr>
+      <th>
+        Reviewer ID
+      </th>
+      <th>
+        Partner ID
+      </th>
+      <th>
+        Grade
+      </th>
+      <th>
+        % Work Contributed
+      </th>
+      <th>
+        Partner Again?
+      </th>
+    </tr>
+    {% for review in reviews %}
+    <tr>
+      <td>
+        {{ review ['reviewerid'] }}
+      </td>
+      <td>
+        {{ review['partnerid'] }}
+      </td>
+      <td>
+        {% if review['grade'] == 4 %}
+          A
+        {% elif review['grade'] == 3 %}
+          B
+        {% elif review['grade'] == 2 %}
+          C
+        {% else %}
+          D
+        {% endif %}
+      </td>
+      <td>
+        {{ review['percentage'] }}
+      </td>
+      <td>
+        {{ review['repartner'] }}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>

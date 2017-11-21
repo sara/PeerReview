@@ -1,0 +1,83 @@
+<!-- !DOCTYPE -->
+<div class="header">
+  <link rel="stylesheet" type="text/css" href="profile.css">
+<!--   NOT LINKED -->
+  <a href=""><i class="material-icons"> home </i></a> 
+</div>
+
+<div class="profilebox">
+  <div class="Identification">
+    <span>Name: Jane Doe</span> <br>
+    <span>ID#: 123-345-5544</span>
+  </div>
+
+  <div class="img-profile">
+    <i class="material-icons">account_box</i>
+    <img src="" alt="">
+  </div>
+
+  <div class="avgstats">
+    <span>Avgerage Stats</span>
+  </div>
+  <div class="SelfEval">
+    <span>Self Evaluation</span>
+  </div>
+</div>
+<div class="review">
+  <table border = "1">
+    <tr>
+      <th>
+        Reviewer ID
+      </th>
+      <th>
+        Grade
+      </th>
+      <th>
+        % Work Contributed
+      </th>
+      <th>
+        Professor
+      </th>
+      <th>
+        Partner Again?
+      </th>
+    </tr>  
+      
+    {% for review in reviews %}
+    <tr>
+      <td>
+        {{ review['reviewerid'] }}
+      </td> 
+      <td>
+        {% if review['grade'] == 1 %}
+          D
+        {% elif review['grade'] == 2 %}
+          C
+        {% elif review['grade'] == 3 %}
+          B
+        {% else %}
+          A
+        {% endif %}
+      </td>
+      <td>
+        {{ review['percentage'] }}
+      </td>
+      <td>
+        {{ review['prof'] }}
+      </td>
+      <td>
+        {{ review['repartner'] }}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+
+
+  </table>  
+</div> 
+  
+  
+  
+  
+  

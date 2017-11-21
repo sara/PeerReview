@@ -6,16 +6,16 @@ from sqlalchemy import create_engine
 
 Base = automap_base()
 
-engine = create_engine("mysql://sarastanway:96Ladybug@localhost:8080/PeerReview")
+engine = create_engine("mysql://root:96Ladybug@localhost:8080/PeerReview")
 
 con = engine.connect()
-#Base.prepare(engine, reflect=True)
+Base.prepare(engine, reflect=True)
 
-#Students = Base.classes.students
-#Reviews = Base.classes.reviews
-#Taken = Base.classes.taken
-#Skills = Base.classes.skills
+Students = Base.classes.students
+Reviews = Base.classes.reviews
+Taken = Base.classes.taken
+Skills = Base.classes.skills
 
-#session = Session(engine)
+session = Session(engine)
 
 

@@ -1,15 +1,19 @@
 <DOCTYPE html>
 
 <table border = "1">
+  {% if students is defined %}
   <tr>
     <th> Student ID </th>
     <th> Student Name </th>
     <th> Gender </th>
     <th> Grad Year </th>
     {% for student in students %}
+    {% set id = student['studentid'] %}
     <tr> 
-      <td> 
-        {{ student['studentid'] }} 
+      <td>
+        <a href = "/profile/{{id}}">
+          {{ student['studentid'] }} 
+        </a>
       </td>
       <td>
         {{ student['name'] }}
@@ -23,5 +27,23 @@
     </tr>
     {% endfor %}
   </tr> 
+  {% endif %}
+  
+  {% if profs is defined %}
+  <tr>
+    <th> Professor Name </th>
+    <th> Class Code </th>
+  </tr> 
+  {% for prof in profs %} 
+  <tr>
+    <td> 
+      {{ prof[0] }}
+    </td>
+    <td>
+      {{ prof[1] }}
+    </td>
+  </tr>
+  {% endfor %}
+  {% endif %}
 <table>
 </html>

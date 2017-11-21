@@ -2,13 +2,13 @@
 <div class="header">
   <link rel="stylesheet" type="text/css" href="profile.css">
 <!--   NOT LINKED -->
-  <a href=""><i class="material-icons"> home </i></a> 
+  <a href="/"><i class="material-icons"> home </i></a> 
 </div>
 
 <div class="profilebox">
   <div class="Identification">
-    <span>Name: Jane Doe</span> <br>
-    <span>ID#: 123-345-5544</span>
+    <span>Name: {{ name }}</span> <br>
+    <span>ID#: {{ ruid }}</span>
   </div>
 
   <div class="img-profile">
@@ -17,7 +17,7 @@
   </div>
 
   <div class="avgstats">
-    <span>Avgerage Stats</span>
+    <span>Average Stats</span>
   </div>
   <div class="SelfEval">
     <span>Self Evaluation</span>
@@ -66,7 +66,12 @@
         {{ review['prof'] }}
       </td>
       <td>
-        {{ review['repartner'] }}
+        {% set repartner = review['repartner'] %}
+        {% if repartner == 0 %}
+          No
+        {% else %}
+          Yes
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

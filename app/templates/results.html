@@ -11,7 +11,7 @@
     {% set id = student['studentid'] %}
     <tr> 
       <td>
-        <a href = "/profile/{{id}}">
+        <a href = "/student_profile/{{id}}">
           {{ student['studentid'] }} 
         </a>
       </td>
@@ -35,12 +35,16 @@
     <th> Class Code </th>
   </tr> 
   {% for prof in profs %} 
+  {% set course = prof[0] %}
+  {% set id = prof[1] %}
   <tr>
     <td> 
-      {{ prof[0] }}
+        {{ prof[0] }}
     </td>
     <td>
+      <a href = "/professor_profile/{{id}}/{{course}}">
       {{ prof[1] }}
+      </a>
     </td>
   </tr>
   {% endfor %}

@@ -1,8 +1,8 @@
 from flask import request, render_template, redirect, url_for
 from app import app
-from forms import SearchForm
+from forms import SearchForm, ProfileForm
 from sqlalchemy import inspect
-from models import session
+from models import session, Reviews, Taken, Students 
 from collections import namedtuple
 from urllib import quote
 
@@ -41,7 +41,16 @@ def get_student_profile(id):
   review = namedtuple('review', reviews.keys())
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
-  return render_template('student.html', reviews=reviews)
+  for review in reviews:
+    ruid = review['partnerid']
+    r_name = session.execute("select name from students where studentid=:val", {'val': review['reviewerid']})
+    review['reviewerid'] = r_name.fetchone()[0]
+    p_name = session.execute("select name from students where studentid=:val", {'val': review['partnerid']})
+    review['partnerid'] = p_name.fetchone()[0]
+    name = review['partnerid']
+
+  
+  return render_template('student.html', name=name, ruid=ruid, views=reviews)
 
 
 @app.route('/professor_profile/<id>/<course>', methods = ['GET', 'POST'])
@@ -76,4 +85,17 @@ def get_profs(name):
 
 @app.route('/create', methods=['GET', 'POST'])
 def land():
-  return render_template('create.html')
+  form = ProfileForm(request.form)
+  if request.method == 'POST':
+    if not form.validate():
+      return 'doop'
+    studentid = form.data['studentid']
+    name = form.data['name']
+    gender = form.data['gender']
+    gradyear = form.data['grad'] 
+    session.execute("insert into students (studentid, name, gender, gradyear) values (:studentid, :name, :gender, :gradyear)", {'studentid': studentid, 'name':name, 'gender': gender, 'gradyear': gradyear})
+    session.commit()
+    return 'Partner has been added to the database!'
+  return render_template('create_profile.html', form = form)
+
+

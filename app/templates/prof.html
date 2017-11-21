@@ -6,6 +6,8 @@
 
 <div class="profilebox">
   <div class="Identification">
+    <a href = "/">home</a>
+    <br>
     <span>Professor Name: {{ prof }} </span> <br>
     <span>Class: {{ course }}</span>
   </div>
@@ -57,7 +59,12 @@
         {{ review['percentage'] }}
       </td>
       <td>
-        {{ review['repartner'] }}
+        {% set repartner= review['repartner'] %}
+        {% if repartner == 0 %}
+          No
+        {% else %}
+          Yes
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

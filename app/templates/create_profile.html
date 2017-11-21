@@ -1,0 +1,21 @@
+<!-- !DOCTYPE -->
+<div class="header">
+  <link rel="stylesheet" type="text/css" href="create.css">
+  <span> We couldn't find what you were looking for...Let's make a new profile for your partner!</span>
+</div>
+<form method='POST' action="/create">
+<div class="identification">
+  {{ form.name.label }}: {{ form.name() }}
+  {{ form.studentid.label }}: {{ form.studentid() }}
+</div>
+
+<div class="gender">
+    {{ form.gender.label }} : {{ form.gender() }}
+</div>
+  <br>
+  {{ form.grad.label }}: {{ form.grad() }}
+
+  <input type="submit" value="Submit">
+</form>
+
+    

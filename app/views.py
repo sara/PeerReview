@@ -41,14 +41,12 @@ def get_student_profile(id):
   review = namedtuple('review', reviews.keys())
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
-  name = session.execute("select name from students where studentid=:val", {'val': id})
+  name = session.execute("select name from students where studentid = :val", {'val': id})
   name = name.fetchone()[0]
-
   for review in reviews:
-    return ruid
     r_name = session.execute("select name from students where studentid=:val", {'val': review['reviewerid']})
     review['reviewerid'] = r_name.fetchone()[0]
-    p_name = session.execute("select name from students where studentid=:val", {'val': id})
+    p_name = session.execute("select name from students where studentid=:val", {'val': review['partnerid']})
     review['partnerid'] = p_name.fetchone()[0]
   return render_template('student.html', name=name, ruid=id, reviews=reviews)
 
@@ -78,6 +76,7 @@ def get_profs(name):
   else:
     return redirect(url_for('land'))
 
+
 @app.route('/create', methods=['GET', 'POST'])
 def land():
   form = ProfileForm(request.form)
@@ -85,9 +84,10 @@ def land():
     studentid = form.data['studentid']
     name = form.data['name']
     gender = form.data['gender']
-    gradyear = form.data['gradyear'] 
+    gradyear = form.data['grad'] 
     session.execute("insert into students (studentid, name, gender, gradyear) values (:studentid, :name, :gender, :gradyear)", {'studentid': studentid, 'name':name, 'gender': gender, 'gradyear': gradyear})
     session.commit()
     return 'Partner has been added to the database!'
   return render_template('create_profile.html', form = form)
+
 

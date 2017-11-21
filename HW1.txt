@@ -1,0 +1,55 @@
+1. The pattern embedded indicates that the higher the course level, the lower the average project grade. Generally, 200 level classes achive As or high Bs on average, while 300 levels hold solid Bs and 400 level courses tend toward Cs.
+
+2.
+
+3. 
+from random import randint
+randint(00000, 99999)
+
+import csv
+
+def main():
+  with open('reviews.csv', 'wb') as csvfile:
+    filewriter = csv.writer(csvfile, delimiter=',', quotechar = '|', quoting = csv.QUOTE_MINIMAL)
+    filewriter.writerow(['Reviewer_ID', 'Partner_ID', 'Class', 'Grade', 'Work_Done', 'Partner_Again', 'Professor', 'Accountability', 'Documentation', 'Communication', 'Work_Quality'])
+    makeData(214, 'Francisco', 1, 1, filewriter)
+    makeData(214, 'Francisco', 1, 2, filewriter)
+    makeData(214, 'Francisco', 2, 3, filewriter) 
+    makeData(214, 'Francisco', 6, 4, filewriter)
+
+
+    makeData(336, 'Imielinski', 5, 1, filewriter)
+    makeData(336, 'Imielinski', 5, 2, filewriter)
+    makeData(336, 'Imielinski', 5, 3, filewriter)
+    makeData(336, 'Imielinski', 5, 4, filewriter)
+
+
+    makeData(344, 'Kalantari', 2, 1, filewriter)
+    makeData(344, 'Kalantari', 3, 2, filewriter)
+    makeData(344, 'Kalantari', 3, 3, filewriter)
+    makeData(344, 'Kalantari', 2, 4, filewriter)
+
+
+    makeData(416, 'Francisco', 3, 1, filewriter)
+    makeData(416, 'Francisco', 4, 2, filewriter)
+    makeData(416, 'Francisco', 2, 3, filewriter)
+    makeData(416, 'Francisco', 1, 4, filewriter)
+
+    makeData(213, 'Sesh', 1, 1, filewriter)
+    makeData(213, 'Sesh', 1, 2, filewriter)
+    makeData(213, 'Sesh', 3, 3, filewriter)
+    makeData(213, 'Sesh', 5, 4, filewriter)
+
+
+    makeData(352, 'Nath', 1, 1, filewriter)
+    makeData(352, 'Nath', 2, 2, filewriter)
+    makeData(352, 'Nath', 3, 3, filewriter)
+    makeData(352, 'Nath', 4, 4, filewriter)
+
+
+    makeData(440, 'Imielinski', 2, 1, filewriter)
+    makeData(440, 'Imielinski', 4, 2, filewriter)
+    makeData(440, 'Imielinski', 2, 3, filewriter)
+    makeData(440, 'Imielinski', 2, 4, filewriter)
+
+def makeData(classCode, professor, quantity, grade, filewriter):

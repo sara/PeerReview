@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 
 Base = automap_base()
 
-engine = create_engine("mysql://root:96Ladybug@localhost:8080/PeerReview")
+engine = create_engine("mysql://root:96Ladybug@localhost:5000/PeerReview")
 
 con = engine.connect()
 Base.prepare(engine, reflect=True)

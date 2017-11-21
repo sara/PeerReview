@@ -1,6 +1,6 @@
 <!-- !DOCTYPE -->
 <div class="header">
-    <link rel="stylesheet" type="text/css" href="land.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/land.css">
   <span> Peer Review</span>
 </div>
 
@@ -10,12 +10,7 @@
     <span>Student Review</span>
    <div> {{ form.studentid.label }} : {{ form.studentid() }} </div>
   </div>
-
-  <div class="class_review">
-    <span>Class Review</span> <br>
-      <div>{{ form.classID.label }} : {{ form.classID() }} </div>
-  </div>
-
+  
   <div class="teacher_review">
     <span>Teacher Review</span>
     <div> {{ form.professorid.label }} : {{ form.professorid() }} </div>

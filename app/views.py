@@ -28,7 +28,8 @@ def get_class(classID):
   review = namedtuple('review', reviews.keys())
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
-  return render_template('class.html', classID = classID, reviews=reviews)
+  average = get_average_grade(classID)
+  return render_template('class.html', classID = classID, average = average, reviews=reviews)
 
 @app.route('/students/<name>', methods=['GET', 'POST'])
 def get_students(name):
@@ -62,13 +63,15 @@ def get_student_profile(id):
   return render_template('student.html', name=name, ruid=id, reviews=reviews)
 
 
-def get_average_grade(reviews):
-  summ = 0
-  total = len(reviews) * 4
-  for review in reviews:
-    summ = summ + review['grade']
-  average = summ/total
-
+def get_average_grade(classID):
+  average = session.execute("select avg (grade) from reviews where classID=:val", {'val': classID}).fetchone()[0]
+  if average <2:
+    return ['F', average]
+  if average < 3:
+    return ['C', average]
+  if average < 4:
+    return ['B', average]
+  return ['A', average]
 
 def get_average_rating(reviews):
   #gradesum = session.execute("select sum(grade) as gradesum from reviews where partnerid=:val", {'val':studentid}).fetchone()[0]

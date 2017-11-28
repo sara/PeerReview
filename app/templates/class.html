@@ -1,0 +1,63 @@
+<!-- !DOCTYPE -->
+<div class="header">
+  <link rel="stylesheet" type="text/css" href="profile.css">
+<!--   NOT LINKED -->
+  <a href="/"><i class="material-icons"> home </i></a> 
+</div>
+
+<div class="profilebox">
+  <div class="Identification">
+    <span>Class: {{ classID }}</span> <br>
+  </div>
+
+</div>
+<div class="review">
+  <table border = "1">
+    <tr>
+      <th>
+        Reviewer ID
+      </th>
+      <th>
+        Grade
+      </th>
+      <th>
+        % Work Contributed
+      </th>
+      <th>
+        Professor
+      </th>
+      <th>
+        Partner Again?
+      </th>
+    </tr>  
+      
+    {% for review in reviews %}
+    <tr>
+      <td>
+        {{ review['reviewerid'] }}
+      </td> 
+      <td>
+        {% if review['grade'] == 1 %}
+          D
+        {% elif review['grade'] == 2 %}
+          C
+        {% elif review['grade'] == 3 %}
+          B
+        {% else %}
+          A
+        {% endif %}
+      <td>
+        {{ review ['percentage'] }}
+      </td>
+      <td>
+        {{ review ['prof' ] }}
+      </td>
+      <td>
+        {% if review ['repartner'] == 1 %}
+        Yes
+        {% else %}
+        No
+        {% endif %}
+      </td>
+    {% endfor %}
+      </td>

@@ -13,11 +13,22 @@ def landing():
   if request.method == 'POST' and form.validate():
     if form.data['studentid']:
       return redirect(url_for('get_students', name=form.data['studentid']))
-    elif form.data['professorid']:
+    elif form.data['professorid'] != 'None':
       return redirect(url_for('get_profs', name=form.data['professorid']))
+    elif form.data['classID']:
+      return redirect(url_for('get_class', classID=form.data['classID']))
   else:
     return render_template('land.html', form=form)
 
+
+
+@app.route('/classes/<classID>', methods = ['GET', 'POST'])
+def get_class(classID):
+  reviews = session.execute("select * from reviews where classID=:val",{'val': classID})
+  review = namedtuple('review', reviews.keys())
+  reviews = [review(*r) for r in reviews.fetchall()]
+  reviews = [review.__dict__ for review in reviews]
+  return render_template('class.html', classID = classID, reviews=reviews)
 
 @app.route('/students/<name>', methods=['GET', 'POST'])
 def get_students(name):
@@ -51,6 +62,31 @@ def get_student_profile(id):
   return render_template('student.html', name=name, ruid=id, reviews=reviews)
 
 
+def get_average_grade(reviews):
+  summ = 0
+  total = len(reviews) * 4
+  for review in reviews:
+    summ = summ + review['grade']
+  average = summ/total
+
+
+def get_average_rating(reviews):
+  #gradesum = session.execute("select sum(grade) as gradesum from reviews where partnerid=:val", {'val':studentid}).fetchone()[0]
+  #contribution = session.execute("select sum(percentage) as contribution from reviews where partnerid=:val", {'val':studentid}).fetchone()[0]
+  #gradesum = session.execute("select review.
+  
+  #return gradesum
+  num = 0
+  total = len(reviews)*200
+  for review in reviews:
+    num = num + 25* int(review['grade'])
+    num = num + int(review['percentage'])
+  #average = num/total
+  return len(reviews)#num/total
+  #return 'doop'
+
+
+
 @app.route('/professor_profile/<id>/<course>', methods = ['GET', 'POST'])
 def get_professor_profile(id, course):
   reviews = session.execute("select * from reviews where prof=:val and classID=:course", {'val': id, 'course': course })
@@ -62,8 +98,8 @@ def get_professor_profile(id, course):
     review['reviewerid'] = r_name.fetchone()[0]
     p_name = session.execute("select name from students where studentid=:val", {'val': review['partnerid']})
     review['partnerid'] = p_name.fetchone()[0]
-  
-  
+  average_grade = get_average_grade(reviews) 
+  print average_grade
   return render_template('prof.html', reviews=reviews, prof=id, course=course)
 
 

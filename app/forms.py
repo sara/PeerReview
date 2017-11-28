@@ -4,18 +4,22 @@ from models import session, Students
 
 class SearchForm(Form):
   studentid = StringField('Student Name')
-  professorid = StringField('Professor Name')
-  classID =  IntegerField('Class Code')
-
+  professorid = RadioField ('Professor Name', choices = [('Sesh', 'Sesh'), ('Imielinski', 'Imielinski'), ('Miranda', 'Miranda'), ('Muthukrishnan', 'Muthukrishnan'), ('Martin', 'Martin'), ('Francisco', 'Francisco'), ('Bolaris', 'Bolaris'), ('Santosh', 'Santosh'), ('FarachColton', 'FarachColton'), ('Nath', 'Nath'), ('PK', 'PK'), ('Bekris', 'Bekris')])
+  
+  
+  #professorid =  RadioField('Professor Name', choices = [('213', '213'),('214', '214'), ('336', '336'), ('344', '344'), ('352', '352'), ('416', '416'), ('440', '440')])
+  
+  classID =  RadioField('Class Code', choices = [('213', '213'),('214', '214'), ('336', '336'), ('344', '344'), ('352', '352'), ('416', '416'), ('440', '440')])
+      
   def validate(form):
     student = form.data['studentid']
     prof = form.data['professorid']
-    classcode = form.data['classID']
+    classID = form.data['classID']
     if student and prof:
       raise validators.ValidationError('Must search for only one field at a time')
-    if student and classcode:
+    if student and classID:
       raise validators.ValidationError('Must search for only one field at a time')
-    if prof and classcode:
+    if prof != 'None' and classID != 'None':
       raise validators.ValidationError('Must search for only one field at a time')
     return True
 

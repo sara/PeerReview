@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect, url_for
 from app import app
 from forms import SearchForm, ProfileForm
-from sqlalchemy import inspect
+from sqlalchemy import inspect, exc
 from models import session, Reviews, Taken, Students 
 from collections import namedtuple
 from urllib import quote
@@ -10,13 +10,16 @@ from urllib import quote
 @app.route('/', methods=['GET', 'POST'])
 def landing():
   form = SearchForm(request.form)
-  if request.method == 'POST' and form.validate():
-    if form.data['studentid']:
-      return redirect(url_for('get_students', name=form.data['studentid']))
-    elif form.data['professorid'] != 'None':
-      return redirect(url_for('get_profs', name=form.data['professorid']))
-    elif form.data['classID']:
-      return redirect(url_for('get_class', classID=form.data['classID']))
+  if request.method == 'POST':
+    if form.validate():
+      if form.data['studentid']:
+        return redirect(url_for('get_students', name=form.data['studentid']))
+      elif form.data['professorid'] != 'None':
+        return redirect(url_for('get_profs', name=form.data['professorid']))
+      elif form.data['classID']:
+        return redirect(url_for('get_class', classID=form.data['classID']))
+    else:
+      return render_template('error.html', error = 'Uh Oh! Make sure to only search one field at a time.', link = "/")
   else:
     return render_template('land.html', form=form)
 
@@ -101,8 +104,7 @@ def get_professor_profile(id, course):
     review['reviewerid'] = r_name.fetchone()[0]
     p_name = session.execute("select name from students where studentid=:val", {'val': review['partnerid']})
     review['partnerid'] = p_name.fetchone()[0]
-  average_grade = get_average_grade(reviews) 
-  print average_grade
+  #average_grade = get_average_grade(reviews) 
   return render_template('prof.html', reviews=reviews, prof=id, course=course)
 
 
@@ -123,9 +125,12 @@ def land():
     studentid = form.data['studentid']
     name = form.data['name']
     gender = form.data['gender']
-    gradyear = form.data['grad'] 
-    session.execute("insert into students (studentid, name, gender, gradyear) values (:studentid, :name, :gender, :gradyear)", {'studentid': studentid, 'name':name, 'gender': gender, 'gradyear': gradyear})
-    session.commit()
+    gradyear = form.data['gradyear'] 
+    try:
+      session.execute("insert into students (studentid, name, gender, gradyear) values (:studentid, :name, :gender, :gradyear)", {'studentid': studentid, 'name':name, 'gender': gender, 'gradyear': gradyear})
+      session.commit()
+    except exc.SQLAlchemyError:
+      return render_template('error.html', error='Uh oh - it looks like that RUID is already registered.', link = "/create")
     return 'Partner has been added to the database!'
   return render_template('create_profile.html', form = form)
 

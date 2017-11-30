@@ -3,17 +3,51 @@
   <link rel="stylesheet" type="text/css" href="create.css">
   <span> Add a new review! </span>
 </div>
-<form method='POST' action="/create">
+<form method='POST' action="/review">
 <div class="identification">
-  {{ form.name.label }}: {{ form.name() }}
-  {{ form.studentid.label }}: {{ form.studentid() }}
+  {{ form.reviewerid.label }}: {{ form.reviewerid() }}
+  {% if form.reviewerid.errors %}
+  <b><br> {{ form.reviewerid.errors[0] }} <br><br></b>
+  {% endif %}
+  
+  
+  {{ form.partnerid.label }} : {{ form.partnerid() }}
+ {% if form.partnerid.errors %}
+  <b><br> {{ form.partnerid.errors[0] }} <br><br></b>
+  {% endif %}
+  
+
 </div>
 
-<div class="gender">
-    {{ form.gender.label }} : {{ form.gender() }}
-</div>
   <br>
-  {{ form.grad.label }}: {{ form.grad() }}
+  {{ form.grade.label }}: {{ form.grade() }}
+  {% if form.grade.errors %}
+  <b><br> {{ form.grade.errors[0] }} <br><br></b>
+  {% endif %}
+   
+  
+  <br>
+  {{ form.percentage.label }} : {{ form.percentage() }}
+   {% if form.percentage.errors %}
+  <b><br> {{ form.percentage.errors[0] }} <br><br></b>
+  {% endif %}
+  
+  
+  <br>
+  {{ form.repartner.label }} : {{ form.repartner() }}
+   {% if form.repartner.errors %}
+  <b><br> {{ form.repartner.errors[0] }} <br><br></b>
+  {% endif %}
+  
+  
+  <br>
+  {{ form.professorid.label }} : {{ form.professorid(rows=12, multiple=False) }}
+  
+   {% if form.professorid.errors %}
+  <b><br> {{ form.professorid.errors[0] }} <br><br></b>
+  {% endif %}
+  
+  <br>
 
   <input type="submit" value="Submit">
 </form>

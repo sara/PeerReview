@@ -6,15 +6,28 @@
 <form method='POST' action="/create">
 <div class="identification">
   {{ form.name.label }}: {{ form.name() }}
+  {% if form.name.errors %}
+  <b><br> {{ form.name.errors[0] }} <br><br></b>
+  {% endif %}
   {{ form.studentid.label }}: {{ form.studentid() }}
+   {% if form.studentid.errors %}
+   <b><br> {{ form.studentid.errors[0] }} <br><br></b>
+  {% endif %}
+  
 </div>
 
 <div class="gender">
     {{ form.gender.label }} : {{ form.gender() }}
 </div>
-  <br>
   <div class="grad">
     {{ form.gradyear.label }}: {{ form.gradyear() }}
+     {% if form.gradyear.errors %}
+     <b> <br> {{ form.gradyear.errors[0] }} <br><br> </b>
+    {% endif %}
+  
+  </div>
+  <div class="taken">
+    {{ form.classID.label (rows=7, multiple=True) }} : {{ form.classID() }}
   </div>
   <input type="submit" value="Submit">
 </form>

@@ -5,6 +5,8 @@
   <a href="/"><i class="material-icons"> home </i></a> 
 </div>
 
+{{ confirmation }}
+
 <div class="profilebox">
   <div class="Identification">
     <span>Name: {{ name }}</span> <br>
@@ -12,6 +14,11 @@
   </div>
 
 </div>
+
+<form method="GET" action = "/review">
+  <input type="submit" value="Add a Review">
+</form>
+
 <div class="review">
   <table border = "1">
     <tr>
@@ -65,9 +72,6 @@
     </tr>
     {% endfor %}
   </table>
-
-
-
   </table>  
 </div> 
   

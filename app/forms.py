@@ -3,21 +3,13 @@ from models import session, Students
 from flask import render_template
 
 class ReviewForm(Form):
-  classID =  RadioField('Class Code', choices = [('213', '213'),('214', '214'), ('336', '336'), ('344', '344'), ('352', '352'), ('416', '416'), ('440', '440')])
+  classID =  RadioField('Class Code', [validators.InputRequired(message='What class was this for?')], choices = [('213', '213'),('214', '214'), ('336', '336'), ('344', '344'), ('352', '352'), ('416', '416'), ('440', '440')])
   reviewerid = IntegerField('Reviewer ID', [validators.InputRequired(message='Looks like you didn\'t put in a reviewer ID')])
   partnerid = IntegerField('Partner ID', [validators.InputRequired(message='Looks like you didn\'t put in a partner ID')])
-  grade = IntegerField('Grade')
+  grade = IntegerField('Grade', [validators.InputRequired(message='What did you get on the project?')])
   percentage = IntegerField('What percentage of work did they contribute?', [validators.InputRequired(message='Maybe your partner wasn\'t great, but you still need to list a work contribution!')])
-  repartner = RadioField('Would you partner again?', choices = [('1', 'Yes'), ('0', 'No')])
+  repartner = RadioField('Would you partner again?', [validators.InputRequired(message='Make sure you fill this out!')], choices = [('1', 'Yes'), ('0', 'No')])
   professorid = RadioField ('Professor Name', [validators.InputRequired(message='You forgot to select a professor')], choices = [('Sesh', 'Sesh'), ('Imielinski', 'Imielinski'), ('Miranda', 'Miranda'), ('Muthukrishnan', 'Muthukrishnan'), ('Martin', 'Martin'), ('Francisco', 'Francisco'), ('Bolaris', 'Bolaris'), ('Santosh', 'Santosh'), ('FarachColton', 'FarachColton'), ('Nath', 'Nath'), ('PK', 'PK'), ('Bekris', 'Bekris')])
-
-  #def validate(form):
-  #  classID = form['classID']
-  #  prof = form['professorid']
-  #  if classID == 213:
-    
-
-
 
 
 class SearchForm(Form):

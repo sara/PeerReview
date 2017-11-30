@@ -1,6 +1,6 @@
 from flask import request, render_template, redirect, url_for
 from app import app
-from forms import SearchForm, ProfileForm
+from forms import SearchForm, ProfileForm, ReviewForm
 from sqlalchemy import inspect, exc
 from models import session, Reviews, Taken, Students 
 from collections import namedtuple
@@ -9,19 +9,19 @@ from urllib import quote
 
 @app.route('/', methods=['GET', 'POST'])
 def landing():
-  form = SearchForm(request.form)
+  search_form = SearchForm(request.form)
   if request.method == 'POST':
-    if form.validate():
-      if form.data['studentid']:
-        return redirect(url_for('get_students', name=form.data['studentid']))
-      elif form.data['professorid'] != 'None':
-        return redirect(url_for('get_profs', name=form.data['professorid']))
-      elif form.data['classID']:
-        return redirect(url_for('get_class', classID=form.data['classID']))
+    if search_form.validate():
+      if search_form.data['studentid']:
+        return redirect(url_for('get_students', name=search_form.data['studentid']))
+      elif search_form.data['professorid'] != 'None':
+        return redirect(url_for('get_profs', name=search_form.data['professorid']))
+      elif search_form.data['classID']:
+        return redirect(url_for('get_class', classID=search_form.data['classID']))
     else:
-      return render_template('error.html', error = 'Uh Oh! Make sure to only search one field at a time.', link = "/")
+      return render_template('error.html', error = 'Uh Oh! Make sure to only search one field at a time.', link = "/", destination = 'home')
   else:
-    return render_template('land.html', form=form)
+    return render_template('land.html', form=search_form)
 
 
 
@@ -130,8 +130,15 @@ def land():
       session.execute("insert into students (studentid, name, gender, gradyear) values (:studentid, :name, :gender, :gradyear)", {'studentid': studentid, 'name':name, 'gender': gender, 'gradyear': gradyear})
       session.commit()
     except exc.SQLAlchemyError:
-      return render_template('error.html', error='Uh oh - it looks like that RUID is already registered.', link = "/create")
-    return 'Partner has been added to the database!'
+      return render_template('error.html', error='Uh oh - it looks like that RUID is already registered.', link = "/create", destination  = 'back')
+    return render_template('student.html', name=name, ruid=studentid, reviews=[], confirmation = 'Partner has been added to database!')
   return render_template('create_profile.html', form = form)
 
-
+@app.route('/review', methods = ['GET', 'POST'])
+def review():
+  form = ReviewForm(request.form)
+  if request.method == 'POST' and form.validate():
+      return 'doop'
+     # return render_template('error.html', error = 'Yikes. Something went wrong.', link = "/review", destination='back')
+  else:
+    return render_template('create_review.html', form=form)

@@ -1,9 +1,9 @@
 <!-- !DOCTYPE -->
 <div class="header">
     <link rel="stylesheet" type="text/css" href="../static/css/land.css">
-  <span> Peer Review</span>
-</div>
-
+    <span> Peer Review</span> <br>
+<h6> <center> (and skip the screw) </center></h6>
+  </div>
 <form method="POST" action = "/">
 <div class="reviews">
   <div class="student_review">
@@ -15,6 +15,12 @@
     <span> Search a Prof </span>
     <div> {{ form.professorid.label }} : {{ form.professorid() }} </div>
   </div>
+
+  <div class ="class_review">
+    <span> Search a Class </span>
+    <div> {{ form.classID.label }} : {{ form.classID() }} </div>
+  </div>
+  <a href = "/review"> Add a Review </a>
   <input type="submit" value= "Submit">
 </div>
 

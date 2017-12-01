@@ -26,6 +26,9 @@
         Reviewer ID
       </th>
       <th>
+        Class
+      </th>
+      <th>
         Grade
       </th>
       <th>
@@ -43,7 +46,10 @@
     <tr>
       <td>
         {{ review['reviewerid'] }}
-      </td> 
+      </td>
+      <td>
+        {{ review['classID'] }}
+      </td>
       <td>
         {% if review['grade'] == 1 %}
           D

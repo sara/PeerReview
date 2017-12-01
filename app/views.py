@@ -105,7 +105,7 @@ def get_student_profile(id):
 
 
 @app.route('/best_and_worst', methods=['GET'])
-def get_extreme_partners(classID):
+def get_extreme_partners():
   best = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
   best = namedtuple('review', reviews.keys())
   best = [review(*r) for r in reviews.fetchall()]

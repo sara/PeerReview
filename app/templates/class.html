@@ -11,7 +11,6 @@
     <span>Class: {{ classID }}</span> <br>
     <span>Percentage Women: {{ diversity }}% </span> </br>
     <span>Average Grade: {{ average[0] }} ({{ average [1]*25 }}) </span>
-    <p> Scroll down to see the walls of FAME and SHAME! </p>
   </div>
 
 </div>
@@ -19,10 +18,13 @@
   <table border = "1">
     <tr>
       <th>
-        Reviewer ID
+        Reviewer
       </th>
       <th>
-        Grade
+        Partner
+      </th>
+      <th>
+      Grade
       </th>
       <th>
         % Work Contributed
@@ -40,6 +42,9 @@
       <td>
         {{ review['reviewerid'] }}
       </td> 
+      <td>
+        {{ review['partnerid'] }}
+      </td>
       <td>
         {% if review['grade'] == 1 %}
           D

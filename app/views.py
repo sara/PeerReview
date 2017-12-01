@@ -31,12 +31,17 @@ def get_class(classID):
   review = namedtuple('review', reviews.keys())
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
+  for review in reviews:
+    reviewer=get_name(review['reviewerid'])
+    partner=get_name(review['partnerid'])
+    review['reviewerid']=reviewer
+    review['partnerid']=partner
   average = get_average_grade(classID)
   diversity = round(get_diversity(classID), 4)*100
   #best = get_extreme_partners(classID, True)
   #worst = get_extreme_partners(classID, False)
   
-  return render_template('class.html', diversity = diversity, classID = classID, average = average, reviews=reviews, best=best, worst=worst)
+  return render_template('class.html', diversity = diversity, classID = classID, average = average, reviews=reviews)
 
 
 @app.route('/program', methods = ['GET'])
@@ -106,16 +111,31 @@ def get_student_profile(id):
 
 @app.route('/best_and_worst', methods=['GET'])
 def get_extreme_partners():
-  best = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
-  best = namedtuple('review', best.keys())
-  best = [review(*r) for r in best.fetchall()]
-  best = [review.__dict__ for review in best]
+  reviews = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
+  review = namedtuple('review', reviews.keys())
+  reviews = [review(*r) for r in reviews.fetchall()]
+  best = [review.__dict__ for review in reviews]
+  for review in best:
+    reviewer = get_name(review['reviewerid'])
+    partner = get_name(review['partnerid'])
+    review['reviewerid']=reviewer
+    review['partnerid']=partner
 
-  worst = session.execute("select * from reviews where percentage<50 and repartner=0 and grade<3")
-  worst = namedtuple('review', worst.keys())
-  worst = [review(*r) for r in worst.fetchall()]
-  worst = [review.__dict__ for worst in reviews]
-  return render_template('/wall', best=best, worst=worst)
+
+  reviews = session.execute("select * from reviews where percentage<50 and repartner=0 and grade<3")
+  review = namedtuple('review', reviews.keys())
+  reviews = [review(*r) for r in reviews.fetchall()]
+  worst = [review.__dict__ for review in reviews]
+  for review in worst:
+    reviewer = get_name(review['reviewerid'])
+    partner = get_name(review['partnerid'])
+    review['reviewerid']=reviewer
+    review['partnerid']=partner
+  return render_template('wall.html', best=best, worst=worst)
+
+def get_name(studentid):
+  name = session.execute("select name from students where studentid=:val", {'val':studentid}).fetchone()[0]
+  return name
 
 def get_average_grade(classID):
   average = session.execute("select avg (grade) from reviews where classID=:val", {'val': classID}).fetchone()[0]

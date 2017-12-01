@@ -4,7 +4,10 @@
   <table border = "1">
     <tr>
       <th>
-        Reviewer ID
+        Reviewer
+      </th>
+      <th>
+        Partner
       </th>
       <th>
         Grade
@@ -24,7 +27,10 @@
     <tr>
       <td>
         {{ review['reviewerid'] }}
-      </td> 
+      </td>
+      <td>
+        {{ review['partnerid'] }}
+      </td>
       <td>
         {% if review['grade'] == 1 %}
           D
@@ -58,7 +64,10 @@
   <table border = "1">
     <tr>
       <th>
-        Reviewer ID
+        Reviewer
+      </th>
+      <th>
+        Partner
       </th>
       <th>
         Grade
@@ -79,6 +88,9 @@
       <td>
         {{ review['reviewerid'] }}
       </td> 
+      <td>
+        {{ review['partnerid'] }}
+      </td>
       <td>
         {% if review['grade'] == 1 %}
           D

@@ -1,0 +1,34 @@
+<doctype html>
+<a href="/"> home </a>
+<table border="1">
+  <tr>
+    <b><td> Class </td> </b>
+    <b><td> % Women </td></b>
+    <b><td> Average Grade </td><b>
+  </tr>
+  {% for class in stats %}
+  <td>
+    {{ class[0] }}
+  </td>
+  <td>
+    {{ class[1] }}
+  </td>
+  <td> {{class[2][1]*25 }}</td>
+</tr>
+  {% endfor %}
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <b> <td> Class Level </td></b>
+    <b><td> % Women </td></b>
+  </tr>
+  {% for level in levels %}
+  <tr>
+    <td> {{ level[0] }} </td>
+    <td> {{ level[1] }} </td>
+  </tr>
+  {% endfor %}
+</table>
+</html>

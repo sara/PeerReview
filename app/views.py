@@ -32,8 +32,31 @@ def get_class(classID):
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
   average = get_average_grade(classID)
-  return render_template('class.html', classID = classID, average = average, reviews=reviews)
+  print average
+  diversity = round(get_diversity(classID), 4)*100
+  return render_template('class.html', diversity = diversity, classID = classID, average = average, reviews=reviews)
 
+
+
+@app.route('/program', methods = ['GET'])
+def program():
+  stats = get_all_stats(False)
+  levels = get_all_stats(True)
+  return render_template('program.html', levels=levels, stats=stats) 
+
+
+def get_all_stats(aggregate):
+  soft_meth = round(get_diversity(213), 4)*100
+  systems = round(get_diversity(214), 4) *100
+  databases = round(get_diversity(336), 4)*100
+  algo = round(get_diversity(344), 4) *100
+  os = round(get_diversity(416), 4)*100
+  it = round(get_diversity(352), 4)*100
+  ai = round(get_diversity(440), 4)*100
+  if aggregate:
+    return [('200 level: ', (soft_meth+systems)/2), ('300 level: ', round((databases+algo+it)/3), 4), ('400 level: ', (os+ai)/2)]
+  else: 
+    return [('Software Methodology', soft_meth, get_average_grade(213)), ('Systems Programming',  systems, get_average_grade(214)), ('Databases', databases, get_average_grade(336)), ('Algorithms', algo, get_average_grade(344)),  ('Internet Technology', it, get_average_grade(352)), ('Operating Systems', os, get_average_grade(416)), ('Artificial Intelligence', ai, get_average_grade(440))]
 
 
 
@@ -44,10 +67,6 @@ def get_diversity(classID):
   men = session.execute("select count(studentid) from taken where classID=:val and studentid in (select studentid from students where gender=:gender)", {'val':classID, 'gender': 'male'})
   men = int(men.fetchone()[0])*1.0
   return (women/(women+men))
-  #Student = namedtuple('Student', result.keys()) 
-  #students = [Student(*r) for r in result.fetchall()]
-  #students = [student.__dict__ for student in students]
-  
 
 
 
@@ -86,6 +105,7 @@ def get_student_profile(id):
 
 def get_average_grade(classID):
   average = session.execute("select avg (grade) from reviews where classID=:val", {'val': classID}).fetchone()[0]
+  average = round(average, 2)
   if average <2:
     return ['F', average]
   if average < 3:
@@ -170,7 +190,7 @@ def review():
     prof = review_form['professorid']
     prof = str(prof.raw_data[0])
     grade = review_form['grade']
-    grade = int(grade.raw_data[0])
+    grade = int(grade.raw_data[0])/25
     
     #make sure that the reviewer has a profile - if they don't make them make one
     if len(student_exists(reviewerid)) == 0:
@@ -180,14 +200,13 @@ def review():
     
     #make sure that both are listed as having taken the class
     if taken_class(reviewerid, classID) == 0:
-      session.execute("insert into taken(classID, studentID) values (:reviewerid, :classID)", {'reviewerid': reviewerid, 'classID':classID})
+      session.execute("insert into taken(classID, studentID) values (:classID, :reviewerid)", {'reviewerid': reviewerid, 'classID':classID})
     if taken_class(partnerid, classID) == 0:
-      session.execute("insert into taken(classID, studentID) values (:partnerid, :classID)", {'partnerid': partnerid, 'classID':classID})
+      session.execute("insert into taken(classID, studentID) values (:classID, :partnerid)", {'partnerid': partnerid, 'classID':classID})
     try:
       session.execute("insert into reviews (classID, reviewerid, partnerid, grade, percentage, repartner, prof) values (:classID, :reviewerid, :partnerid, :grade, :percentage, :repartner, :prof)", {'classID': classID, 'reviewerid': reviewerid, 'partnerid': partnerid, 'grade': grade, 'percentage': percentage, 'repartner': repartner, 'prof': prof})
       session.commit()
       return redirect(url_for('get_student_profile', id=partnerid))
-      #return render_template('student.html', name=student_exists(partnerid)[0], ruid=partnerid, reviews=[], confirmation = 'Partner has been added to database!')
     except exc.SQLAlchemyError:
       return render_template('error.html', error='Hey now - you can\'t take a class more than once. You or your partner is already registered.', link = "/review", destination  = 'back')
   return render_template('create_review.html', form=review_form)

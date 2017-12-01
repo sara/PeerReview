@@ -107,14 +107,14 @@ def get_student_profile(id):
 @app.route('/best_and_worst', methods=['GET'])
 def get_extreme_partners():
   best = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
-  best = namedtuple('review', reviews.keys())
-  best = [review(*r) for r in reviews.fetchall()]
-  best = [review.__dict__ for review in reviews]
+  best = namedtuple('review', best.keys())
+  best = [review(*r) for r in best.fetchall()]
+  best = [review.__dict__ for review in best]
 
   worst = session.execute("select * from reviews where percentage<50 and repartner=0 and grade<3")
-  worst = namedtuple('review', reviews.keys())
-  worst = [review(*r) for r in reviews.fetchall()]
-  worst = [review.__dict__ for review in reviews]
+  worst = namedtuple('review', worst.keys())
+  worst = [review(*r) for r in worst.fetchall()]
+  worst = [review.__dict__ for worst in reviews]
   return render_template('/wall', best=best, worst=worst)
 
 def get_average_grade(classID):

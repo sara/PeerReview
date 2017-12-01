@@ -32,10 +32,11 @@ def get_class(classID):
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
   average = get_average_grade(classID)
-  print average
   diversity = round(get_diversity(classID), 4)*100
-  return render_template('class.html', diversity = diversity, classID = classID, average = average, reviews=reviews)
-
+  best = get_extreme_partners(classID, True)
+  worst = get_extreme_partners(classID, False)
+  
+  return render_template('class.html', diversity = diversity, classID = classID, average = average, reviews=reviews, best=best, worst=worst)
 
 
 @app.route('/program', methods = ['GET'])
@@ -103,6 +104,20 @@ def get_student_profile(id):
   return render_template('student.html', name=name, ruid=id, reviews=reviews)
 
 
+
+def get_extreme_partners(classID, good):
+  if good:
+    reviews = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
+    review = namedtuple('review', reviews.keys())
+    reviews = [review(*r) for r in reviews.fetchall()]
+    reviews = [review.__dict__ for review in reviews]
+  else:
+     reviews = session.execute("select * from reviews where percentage<50 and repartner=0 and grade<3")
+     review = namedtuple('review', reviews.keys())
+     reviews = [review(*r) for r in reviews.fetchall()]
+     reviews = [review.__dict__ for review in reviews]
+  return reviews
+
 def get_average_grade(classID):
   average = session.execute("select avg (grade) from reviews where classID=:val", {'val': classID}).fetchone()[0]
   average = round(average, 2)
@@ -113,22 +128,6 @@ def get_average_grade(classID):
   if average < 4:
     return ['B', average]
   return ['A', average]
-
-def get_average_rating(reviews):
-  #gradesum = session.execute("select sum(grade) as gradesum from reviews where partnerid=:val", {'val':studentid}).fetchone()[0]
-  #contribution = session.execute("select sum(percentage) as contribution from reviews where partnerid=:val", {'val':studentid}).fetchone()[0]
-  #gradesum = session.execute("select review.
-  
-  #return gradesum
-  num = 0
-  total = len(reviews)*200
-  for review in reviews:
-    num = num + 25* int(review['grade'])
-    num = num + int(review['percentage'])
-  #average = num/total
-  return len(reviews)#num/total
-  #return 'doop'
-
 
 
 @app.route('/professor_profile/<id>/<course>', methods = ['GET', 'POST'])

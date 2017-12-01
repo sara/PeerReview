@@ -1,0 +1,43 @@
+<doctype html>
+
+<table>
+  <tr>
+    <td> Class </td>
+    <td> % Women </td>
+  </tr>
+  {% for class in stats %}
+  <td>
+    {{ class[0] }}
+  </td>
+  <td>
+    {{ class[1] }}
+  </td>
+  {% endfor %}
+</table>
+
+
+<table>
+  <tr>
+    <td> Class Level </td>
+    <td> % Women </td>
+  </tr>
+  {% for level in levels %}
+  <tr>
+    <td> {{ level[0] }} </td>
+    <td> {{ level[1] }} </td>
+  </tr>
+  {% endfor %}
+</table>
+</html>
+
+
+
+
+
+
+
+
+  
+
+
+</html>

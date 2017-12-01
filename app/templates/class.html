@@ -1,8 +1,9 @@
 <!-- !DOCTYPE -->
 <div class="header">
-  <link rel="stylesheet" type="text/css" href="profile.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/class.css">
 <!--   NOT LINKED -->
   <a href="/"><i class="material-icons"> home </i></a> 
+  
 </div>
 
 <div class="profilebox">
@@ -10,6 +11,7 @@
     <span>Class: {{ classID }}</span> <br>
     <span>Percentage Women: {{ diversity }}% </span> </br>
     <span>Average Grade: {{ average[0] }} ({{ average [1]*25 }}) </span>
+    <p> Scroll down to see the walls of FAME and SHAME! </p>
   </div>
 
 </div>
@@ -62,4 +64,115 @@
         {% endif %}
       </td>
     {% endfor %}
+  </tr>
+</table>
+
+
+  <h1> Wall of FAME </h1>
+<div class="best">
+  <table border = "1">
+    <tr>
+      <th>
+        Reviewer ID
+      </th>
+      <th>
+        Grade
+      </th>
+      <th>
+        % Work Contributed
+      </th>
+      <th>
+        Professor
+      </th>
+      <th>
+        Partner Again?
+      </th>
+    </tr>  
+      
+    {% for review in best %}
+    <tr>
+      <td>
+        {{ review['reviewerid'] }}
+      </td> 
+      <td>
+        {% if review['grade'] == 1 %}
+          D
+        {% elif review['grade'] == 2 %}
+          C
+        {% elif review['grade'] == 3 %}
+          B
+        {% else %}
+          A
+        {% endif %}
+      <td>
+        {{ review ['percentage'] }}
       </td>
+      <td>
+        {{ review ['prof' ] }}
+      </td>
+      <td>
+        {% if review ['repartner'] == 1 %}
+        Yes
+        {% else %}
+        No
+        {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+</table>
+
+
+  <h1> Wall of SHAME </h1>
+<div class="worst">
+  <table border = "1">
+    <tr>
+      <th>
+        Reviewer ID
+      </th>
+      <th>
+        Grade
+      </th>
+      <th>
+        % Work Contributed
+      </th>
+      <th>
+        Professor
+      </th>
+      <th>
+        Partner Again?
+      </th>
+    </tr>  
+      
+    {% for review in worst %}
+    <tr>
+      <td>
+        {{ review['reviewerid'] }}
+      </td> 
+      <td>
+        {% if review['grade'] == 1 %}
+          D
+        {% elif review['grade'] == 2 %}
+          C
+        {% elif review['grade'] == 3 %}
+          B
+        {% else %}
+          A
+        {% endif %}
+      <td>
+        {{ review ['percentage'] }}
+      </td>
+      <td>
+        {{ review ['prof' ] }}
+      </td>
+      <td>
+        {% if review ['repartner'] == 1 %}
+        Yes
+        {% else %}
+        No
+        {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+</table>
+
+

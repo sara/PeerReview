@@ -33,8 +33,8 @@ def get_class(classID):
   reviews = [review.__dict__ for review in reviews]
   average = get_average_grade(classID)
   diversity = round(get_diversity(classID), 4)*100
-  best = get_extreme_partners(classID, True)
-  worst = get_extreme_partners(classID, False)
+  #best = get_extreme_partners(classID, True)
+  #worst = get_extreme_partners(classID, False)
   
   return render_template('class.html', diversity = diversity, classID = classID, average = average, reviews=reviews, best=best, worst=worst)
 
@@ -104,19 +104,18 @@ def get_student_profile(id):
   return render_template('student.html', name=name, ruid=id, reviews=reviews)
 
 
+@app.route('/best_and_worst', methods=['GET'])
+def get_extreme_partners(classID):
+  best = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
+  best = namedtuple('review', reviews.keys())
+  best = [review(*r) for r in reviews.fetchall()]
+  best = [review.__dict__ for review in reviews]
 
-def get_extreme_partners(classID, good):
-  if good:
-    reviews = session.execute("select * from reviews where percentage>=50 and repartner=1 and grade>=3")
-    review = namedtuple('review', reviews.keys())
-    reviews = [review(*r) for r in reviews.fetchall()]
-    reviews = [review.__dict__ for review in reviews]
-  else:
-     reviews = session.execute("select * from reviews where percentage<50 and repartner=0 and grade<3")
-     review = namedtuple('review', reviews.keys())
-     reviews = [review(*r) for r in reviews.fetchall()]
-     reviews = [review.__dict__ for review in reviews]
-  return reviews
+  worst = session.execute("select * from reviews where percentage<50 and repartner=0 and grade<3")
+  worst = namedtuple('review', reviews.keys())
+  worst = [review(*r) for r in reviews.fetchall()]
+  worst = [review.__dict__ for review in reviews]
+  return render_template('/wall', best=best, worst=worst)
 
 def get_average_grade(classID):
   average = session.execute("select avg (grade) from reviews where classID=:val", {'val': classID}).fetchone()[0]

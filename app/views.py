@@ -32,9 +32,6 @@ def get_class(classID):
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
   average = get_average_grade(classID)
-  
-  
-  
   return render_template('class.html', classID = classID, average = average, reviews=reviews)
 
 
@@ -189,16 +186,10 @@ def review():
     try:
       session.execute("insert into reviews (classID, reviewerid, partnerid, grade, percentage, repartner, prof) values (:classID, :reviewerid, :partnerid, :grade, :percentage, :repartner, :prof)", {'classID': classID, 'reviewerid': reviewerid, 'partnerid': partnerid, 'grade': grade, 'percentage': percentage, 'repartner': repartner, 'prof': prof})
       session.commit()
-      return render_template('student.html', name=student_exists(partnerid)[0], ruid=partnerid, reviews=[], confirmation = 'Partner has been added to database!')
+      return redirect(url_for('get_student_profile', id=partnerid))
+      #return render_template('student.html', name=student_exists(partnerid)[0], ruid=partnerid, reviews=[], confirmation = 'Partner has been added to database!')
     except exc.SQLAlchemyError:
       return render_template('error.html', error='Hey now - you can\'t take a class more than once. You or your partner is already registered.', link = "/review", destination  = 'back')
-
-  #else:
-
-
-
-    # return render_template('error.html', error = 'Yikes. Something went wrong.', link = "/review", destination='back')
-  #else:
   return render_template('create_review.html', form=review_form)
 
 def student_exists(studentid):

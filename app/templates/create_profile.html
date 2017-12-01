@@ -1,7 +1,11 @@
 <!-- !DOCTYPE -->
 <div class="header">
   <link rel="stylesheet" type="text/css" href="create.css">
+  {% if error %}
+  {{ error }}
+  {% else %}
   <span> We couldn't find what you were looking for...Let's make a new profile for your partner!</span>
+  {% endif %}
 </div>
 <form method='POST' action="/create">
 <div class="identification">

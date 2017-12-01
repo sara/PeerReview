@@ -6,11 +6,10 @@ class ReviewForm(Form):
   classID =  RadioField('Class Code', [validators.InputRequired(message='What class was this for?')], choices = [('213', '213'),('214', '214'), ('336', '336'), ('344', '344'), ('352', '352'), ('416', '416'), ('440', '440')])
   reviewerid = IntegerField('Reviewer ID', [validators.InputRequired(message='Looks like you didn\'t put in a reviewer ID')])
   partnerid = IntegerField('Partner ID', [validators.InputRequired(message='Looks like you didn\'t put in a partner ID')])
-  grade = IntegerField('Grade', [validators.InputRequired(message='What did you get on the project?')])
-  percentage = IntegerField('What percentage of work did they contribute?', [validators.InputRequired(message='Maybe your partner wasn\'t great, but you still need to list a work contribution!')])
+  grade = IntegerField('Grade', [validators.NumberRange(min=0, max=100, message='Not a valid grade'), validators.InputRequired(message='What did you get on the project?')])
+  percentage = IntegerField('What percentage of work did they contribute?', [validators.NumberRange(min=0, max=100, message='Not a valid contribution range'), validators.InputRequired(message='Maybe your partner wasn\'t great, but you still need to list a work contribution!')])
   repartner = RadioField('Would you partner again?', [validators.InputRequired(message='Make sure you fill this out!')], choices = [('1', 'Yes'), ('0', 'No')])
   professorid = RadioField ('Professor Name', [validators.InputRequired(message='You forgot to select a professor')], choices = [('Sesh', 'Sesh'), ('Imielinski', 'Imielinski'), ('Miranda', 'Miranda'), ('Muthukrishnan', 'Muthukrishnan'), ('Martin', 'Martin'), ('Francisco', 'Francisco'), ('Bolaris', 'Bolaris'), ('Santosh', 'Santosh'), ('FarachColton', 'FarachColton'), ('Nath', 'Nath'), ('PK', 'PK'), ('Bekris', 'Bekris')])
-
 
 class SearchForm(Form):
   studentid = StringField('Student Name')

@@ -8,15 +8,11 @@
   {{ form.reviewerid.label }}: {{ form.reviewerid() }}
   {% if form.reviewerid.errors %}
   <b><br> {{ form.reviewerid.errors[0] }} <br><br></b>
-  {% endif %}
-  
-  
+  {% endif %}  
   {{ form.partnerid.label }} : {{ form.partnerid() }}
  {% if form.partnerid.errors %}
   <b><br> {{ form.partnerid.errors[0] }} <br><br></b>
   {% endif %}
-  
-
 </div>
 
   <br>
@@ -48,7 +44,12 @@
   {% endif %}
   
   <br>
-
+  {{ form.classID.label }} : {{ form.classID() }}
+  
+   {% if form.classID.errors %}
+  <b><br> {{ form.classID.errors[0] }} <br><br></b>
+  {% endif %}
+ 
   <input type="submit" value="Submit">
 </form>
 

@@ -32,7 +32,28 @@ def get_class(classID):
   reviews = [review(*r) for r in reviews.fetchall()]
   reviews = [review.__dict__ for review in reviews]
   average = get_average_grade(classID)
+  
+  
+  
   return render_template('class.html', classID = classID, average = average, reviews=reviews)
+
+
+
+
+
+def get_diversity(classID):
+  women = session.execute("select count(studentid) from taken where classID=:val and studentid in (select studentid from students where gender=:gender)", {'val':classID, 'gender': 'female'})
+  women = int(women.fetchone()[0])*1.0
+  men = session.execute("select count(studentid) from taken where classID=:val and studentid in (select studentid from students where gender=:gender)", {'val':classID, 'gender': 'male'})
+  men = int(men.fetchone()[0])*1.0
+  return (women/(women+men))
+  #Student = namedtuple('Student', result.keys()) 
+  #students = [Student(*r) for r in result.fetchall()]
+  #students = [student.__dict__ for student in students]
+  
+
+
+
 
 @app.route('/students/<name>', methods=['GET', 'POST'])
 def get_students(name):
@@ -136,9 +157,58 @@ def land():
 
 @app.route('/review', methods = ['GET', 'POST'])
 def review():
-  form = ReviewForm(request.form)
-  if request.method == 'POST' and form.validate():
-      return 'doop'
-     # return render_template('error.html', error = 'Yikes. Something went wrong.', link = "/review", destination='back')
-  else:
-    return render_template('create_review.html', form=form)
+  review_form = ReviewForm(request.form)
+  profile_form = ProfileForm()
+  if request.method == 'POST' and review_form.validate():
+    reviewerid = review_form['reviewerid']
+    partnerid = review_form['partnerid']
+    reviewerid = int(reviewerid.raw_data[0])
+    partnerid = int(partnerid.raw_data[0])
+    classID = review_form['classID']
+    classID = int(classID.raw_data[0])
+    percentage = review_form['percentage']
+    percentage = int(percentage.raw_data[0])
+    repartner = review_form['repartner']
+    repartner = int(repartner.raw_data[0])
+    prof = review_form['professorid']
+    prof = str(prof.raw_data[0])
+    grade = review_form['grade']
+    grade = int(grade.raw_data[0])
+    
+    #make sure that the reviewer has a profile - if they don't make them make one
+    if len(student_exists(reviewerid)) == 0:
+      return render_template('create_profile.html', form=profile_form,  error='No fair reviewing a friend if you don\'t have your own profile! Make one before you proceed.')
+    if len(student_exists(partnerid)) == 0:
+      return render_template('create_profile.html', form=profile_form,  error='That person\'s not registered yet. Make a profile for them before you review!')
+    
+    #make sure that both are listed as having taken the class
+    if taken_class(reviewerid, classID) == 0:
+      session.execute("insert into taken(classID, studentID) values (:reviewerid, :classID)", {'reviewerid': reviewerid, 'classID':classID})
+    if taken_class(partnerid, classID) == 0:
+      session.execute("insert into taken(classID, studentID) values (:partnerid, :classID)", {'partnerid': partnerid, 'classID':classID})
+    try:
+      session.execute("insert into reviews (classID, reviewerid, partnerid, grade, percentage, repartner, prof) values (:classID, :reviewerid, :partnerid, :grade, :percentage, :repartner, :prof)", {'classID': classID, 'reviewerid': reviewerid, 'partnerid': partnerid, 'grade': grade, 'percentage': percentage, 'repartner': repartner, 'prof': prof})
+      session.commit()
+      return render_template('student.html', name=student_exists(partnerid)[0], ruid=partnerid, reviews=[], confirmation = 'Partner has been added to database!')
+    except exc.SQLAlchemyError:
+      return render_template('error.html', error='Hey now - you can\'t take a class more than once. You or your partner is already registered.', link = "/review", destination  = 'back')
+
+  #else:
+
+
+
+    # return render_template('error.html', error = 'Yikes. Something went wrong.', link = "/review", destination='back')
+  #else:
+  return render_template('create_review.html', form=review_form)
+
+def student_exists(studentid):
+  result = session.execute("select name from students where studentid=:val",{'val': studentid}).fetchall()
+  students = list(r for r in result)
+  student = list(r for r in result)
+  return students
+
+
+def taken_class(studentid, classID):
+  result = session.execute("select studentid from taken where studentid=:val and classID = :classID", {'val':studentid, 'classID':classID}).fetchall()
+  student = list(r for r in result)
+  return len(student)
